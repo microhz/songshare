@@ -19,14 +19,17 @@
 
 
 	<!-- 扫描包 -->
-	<context:component-scan base-package="com.micro.ss" />
-	
-	<bean id="jsonpConvert" class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter"></bean>
+	<context:component-scan base-package="com.micro" />
+
+	<bean id="jsonpConvert"
+		class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter"></bean>
 
 	<!-- 扫描配置文件 -->
-	<context:property-placeholder location="classpath:config.propeties"/>
-	
+	<context:property-placeholder location="classpath:config.properties" />
+
 	<!-- mvc的注解驱动 -->
 	<mvc:annotation-driven />
-
+	
+	<!-- db配置 -->
+	<import resource="mybatis.xml" />
 </beans>
