@@ -35,5 +35,8 @@ public abstract class LoggerSupport {
 		loggerCacheMap.put("api", apiLogger);
 		Logger exceptionLogger = org.slf4j.LoggerFactory.getLogger("exception");
 		loggerCacheMap.put("exception", exceptionLogger);
+		
+//		Logger sqlLogger = org.slf4j.LoggerFactory.getLogger("com.apache.mybatis");
+//		loggerCacheMap.put("sql", sqlLogger);
 	}
 }

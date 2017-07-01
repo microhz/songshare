@@ -45,7 +45,22 @@
 		<encoder>
 			<Pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{35} - %msg %n</Pattern>
 		</encoder> 	    
-  	</appender>   
+  	</appender> 
+  	
+  	<appender name="sqlAppender" class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<File>${LOG_BASE_PATH}/sql.log</File>
+		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+		    <!-- daily rollover -->
+			<FileNamePattern>${LOG_BASE_PATH}/sql-log.%d{yyyy-MM-dd}.log</FileNamePattern>
+			
+			<!-- keep 30 days' worth of history -->
+			<maxHistory>100</maxHistory>
+		</rollingPolicy>
+ 
+		<encoder>
+			<Pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{35} - %msg %n</Pattern>
+		</encoder> 	    
+  	</appender>  
   
   <logger name="main" level="DEBUG">
   	<appender-ref ref="mainAppender"/>
@@ -57,6 +72,10 @@
   
   <logger name="exception">
   	<appender-ref ref="exceptionAppender"/>
+  </logger>
+  
+  <logger name="java.sql.PreparedStatement" level="DEBUG">
+  	<appender-ref ref="sqlAppender"/>
   </logger>
   
   <root level="DEBUG">  

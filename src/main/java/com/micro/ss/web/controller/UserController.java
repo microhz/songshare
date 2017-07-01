@@ -3,6 +3,7 @@ package com.micro.ss.web.controller;
 
 import javax.servlet.http.HttpSession;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -125,7 +126,7 @@ public class UserController extends ControllerSupport {
 		userInfo.setPortraitUrl(portraitUrl);
 		userInfo.setEmail(email);
 		userInfo.setWechat(wechat);
-		userInfo.setPassword(MD5Utils.md5(password));
+		if (StringUtils.isNotBlank(password))  userInfo.setPassword(MD5Utils.md5(password));
 		userInfo.setJob(job);
 		userInfo.setQq(qq);
 		userInfo.setPageHome(pageHome);

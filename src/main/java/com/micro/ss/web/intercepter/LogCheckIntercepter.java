@@ -11,7 +11,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.micro.ss.web.annotations.UnLogCheck;
 import com.micro.ss.web.enums.ResponseInfoEnum;
-import com.micro.ss.web.support.LoggerSupport;
+import com.micro.ss.web.support.ControllerSupport;
 
 /**
  * @author mapc 
@@ -19,7 +19,7 @@ import com.micro.ss.web.support.LoggerSupport;
  * 登录校验拦截器
  */
 @Component
-public class LogCheckIntercepter extends LoggerSupport implements HandlerInterceptor {
+public class LogCheckIntercepter extends ControllerSupport implements HandlerInterceptor {
 
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
 			throws Exception {
@@ -27,6 +27,8 @@ public class LogCheckIntercepter extends LoggerSupport implements HandlerInterce
 			HandlerMethod handlerMethod = (HandlerMethod) handler;
 			if (handlerMethod.getMethodAnnotation(UnLogCheck.class) != null) {
 				return true;
+			} else {
+				return curUser() == null ? false : true;
 			}
 		}
 		getMainLogger().error("reject forbiden request : " + request.getRequestURI());
@@ -36,12 +38,12 @@ public class LogCheckIntercepter extends LoggerSupport implements HandlerInterce
 
 	public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler,
 			ModelAndView modelAndView) throws Exception {
-		
+		System.out.println("post handle");
 	}
 
 	public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex)
 			throws Exception {
-		
+		System.out.println("after completion");
 	}
 	
 }
