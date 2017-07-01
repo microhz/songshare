@@ -1,11 +1,14 @@
 package com.micro.ss.web.controller;
 
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.micro.ss.web.constants.UserConstants;
 import com.micro.ss.web.data.model.UserInfo;
 import com.micro.ss.web.enums.ResponseInfoEnum;
 import com.micro.ss.web.support.ControllerSupport;
@@ -54,4 +57,41 @@ public class UserController extends ControllerSupport {
 		}
 		return fail(ResponseInfoEnum.REGISTER_ERROR.getInfo());
 	}
+	
+	/**
+	 * 用户登录
+	 */
+	@RequestMapping("login")
+	@ResponseBody
+	public String login(@RequestParam("username") String userNameOrEmail,
+			@RequestParam("password") String password, HttpSession httpSession){
+		UserInfo userInfo = new UserInfo();
+		userInfo.setEmail(userNameOrEmail);
+		password = MD5Utils.md5(password);
+		UserInfo user = userService.getUserInfoByName(userNameOrEmail, password);
+		if (user == null) {
+			userInfo.setName(userNameOrEmail);
+			user = userService.getUserInfoByEmail(userNameOrEmail, password);
+			if (user == null) {
+				return fail(ResponseInfoEnum.NAME_OR_PASSWORD_ERROR.getInfo());
+			}
+		}
+		httpSession.setAttribute(UserConstants.CURRENT_USER_KEY, user);
+		return ok();
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 }

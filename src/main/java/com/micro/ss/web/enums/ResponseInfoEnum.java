@@ -9,6 +9,7 @@ public enum ResponseInfoEnum {
 	NOT_LOGIN("请登录"),
 	PASSWORD_ERROR("密码错误"),
 	USER_NOT_EXITS("用户不存在"),
+	NAME_OR_PASSWORD_ERROR("用户名或密码错误"),
 	REGISTER_ERROR("注册失败");
 	private String info;
 

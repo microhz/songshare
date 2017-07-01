@@ -9,4 +9,8 @@ import com.micro.ss.web.data.model.UserInfo;
 public interface UserService {
 
 	boolean registerUser(UserInfo userInfo);
+	
+	UserInfo getUserInfoByName(String name, String password);
+	
+	UserInfo getUserInfoByEmail(String email, String password);
 }
