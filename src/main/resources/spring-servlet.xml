@@ -30,6 +30,11 @@
 	<!-- mvc的注解驱动 -->
 	<mvc:annotation-driven />
 	
+	<!-- 拦截器 检验登陆 -->
+	<mvc:interceptors>
+		<bean class="com.micro.ss.web.intercepter.LogCheckIntercepter"/>
+	</mvc:interceptors>
+	
 	<!-- db配置 -->
 	<import resource="mybatis.xml" />
 </beans>

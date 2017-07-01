@@ -80,18 +80,56 @@ public class UserController extends ControllerSupport {
 		return ok();
 	}
 	
+	/**
+	 * 用户登出
+	 */
+	@RequestMapping("logout")
+	@ResponseBody
+	public String logout() {
+		if (curUser() == null) {
+			return ok();
+		}
+		httpSession.removeAttribute(UserConstants.CURRENT_USER_KEY);
+		return ok();
+	}
 	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+	/**
+	 * 用户信息的完善更新
+	 */
+	@RequestMapping("update")
+	@ResponseBody
+	public String update(@RequestParam(value = "name", required = false) String name,
+			@RequestParam(value = "provinceId", required = false) Integer provinceId,
+			@RequestParam(value = "age", required = false) Integer age,
+			@RequestParam(value = "photo", required = false) String photo,
+			@RequestParam(value = "portraitUrl" , required = false) String portraitUrl,
+			@RequestParam(value = "email", required = false) String email,
+			@RequestParam(value = "wechat", required = false) String wechat,
+			@RequestParam(value = "password", required = false) String password,
+			@RequestParam(value = "job", required = false) String job,
+			@RequestParam(value = "qq", required = false) String qq,
+			@RequestParam(value = "pageHome",required = false) String pageHome
+			) {
+		if (curUser() == null) {
+			return fail(ResponseInfoEnum.FORBIDEN.getInfo());
+		}
+		UserInfo userInfo = new UserInfo();
+		userInfo.setId(curUser().getId());
+		userInfo.setName(name);
+		userInfo.setProvinceId(provinceId);
+		userInfo.setAge(age);
+		userInfo.setPhoto(photo);
+		userInfo.setPortraitUrl(portraitUrl);
+		userInfo.setEmail(email);
+		userInfo.setWechat(wechat);
+		userInfo.setPassword(MD5Utils.md5(password));
+		userInfo.setJob(job);
+		userInfo.setQq(qq);
+		userInfo.setPageHome(pageHome);
+		if (userService.updateUserInfo(userInfo)) {
+			return ok();
+		}
+		return fail(ResponseInfoEnum.UPDATE_ERROR.getInfo());
+	}
 	
 }

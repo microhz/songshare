@@ -4,97 +4,36 @@ package com.micro.ss.web.support;
  * @date 2017年7月1日
  */
 
-import org.apache.commons.lang3.StringUtils;
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.micro.ss.web.enums.ResultEnum;
+import com.micro.ss.web.constants.UserConstants;
+import com.micro.ss.web.data.model.UserInfo;
 import com.micro.ss.web.service.UserService;
 
-public abstract class ControllerSupport {
+public abstract class ControllerSupport extends RestSupport {
 	
 	@Autowired
 	protected UserService userService;
+	
+	@Autowired
+	protected HttpSession httpSession;
 
-	protected ObjectMapper objectMapper = new ObjectMapper();
-
-	protected String ok() {
-		Result result = new Result(ResultEnum.SUCCESS);
-		return parseResult(result);
-	}
-
-	protected <T> String ok(Object data) {
-		return parseResult(new Result(ResultEnum.SUCCESS.getCode(), ResultEnum.SUCCESS.getMsg(), data));
-	}
-
-	protected String fail(String msg) {
-		if (StringUtils.isNotBlank(msg)) {
-			return parseResult(new Result(ResultEnum.ERROR.getCode(), msg));
+	protected UserInfo curUser() {
+		Object user = httpSession.getAttribute(UserConstants.CURRENT_USER_KEY);
+		if (user == null) {
+			return null;
 		}
-		return parseResult(new Result(ResultEnum.ERROR.getCode(), ResultEnum.ERROR.getMsg()));
+		return (UserInfo)user;
 	}
-
-	protected String fail(Integer code, String msg) {
-		Integer c = code != null ? code : ResultEnum.ERROR.getCode();
-		String m = StringUtils.isNotBlank(msg) ? msg : ResultEnum.ERROR.getMsg();
-		return parseResult(new Result(c, m));
-	}
-
-	protected String fail() {
-		return parseResult(new Result(ResultEnum.ERROR.getCode(), ResultEnum.ERROR.getMsg()));
-	}
-
-	private String parseResult(Result result) {
-		try {
-			return objectMapper.writeValueAsString(result);
-		} catch (JsonProcessingException e) {
-			e.printStackTrace();
-			// TODO record log
+	
+	protected Long curUserId() {
+		if (curUser() != null) {
+			return curUser().getId();
 		}
 		return null;
 	}
 
-	public class Result {
-		private Integer code;
-		private String msg;
-		private Object data;
-
-		public Result(ResultEnum resultEnum) {
-			this.code = resultEnum.getCode();
-			this.msg = resultEnum.getMsg();
-		}
-
-		Result(Integer code, String msg) {
-			this.code = code;
-			this.msg = msg;
-		}
-
-		public Result(Integer code, String msg, Object data) {
-			this.code = code;
-			this.msg = msg;
-			this.data = data;
-		}
-
-		public Integer getCode() {
-			return code;
-		}
-
-		public void setCode(Integer code) {
-			this.code = code;
-		}
-
-		public String getMsg() {
-			return msg;
-		}
-
-		public void setMsg(String msg) {
-			this.msg = msg;
-		}
-
-		public Object getData() {
-			return data;
-		}
-
-	}
+	
 }

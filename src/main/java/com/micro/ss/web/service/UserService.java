@@ -13,4 +13,6 @@ public interface UserService {
 	UserInfo getUserInfoByName(String name, String password);
 	
 	UserInfo getUserInfoByEmail(String email, String password);
+	
+	boolean updateUserInfo(UserInfo userInfo);
 }

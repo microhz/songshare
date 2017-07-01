@@ -39,4 +39,17 @@ public class UserServiceImpl extends ServiceSupport implements UserService {
 		return (userInfoList == null || userInfoList.size() == 0) ? null : userInfoList.get(0);
 	}
 
+	public boolean updateUserInfo(UserInfo userInfo) {
+		try {
+			UserInfoExample userInfoExample = new UserInfoExample();
+			userInfoExample.or().andIdEqualTo(userInfo.getId());
+			userInfoMapper.updateByExampleSelective(userInfo, userInfoExample);
+		} catch (Exception ex) {
+			ex.printStackTrace();
+			// TODO record log
+			return false;
+		}
+		return true;
+	}
+
 }
