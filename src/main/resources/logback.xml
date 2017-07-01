@@ -1,13 +1,65 @@
 <?xml version="1.0" encoding="UTF-8"?>  
 <configuration scan="true" scanPeriod="60 second" debug="false">  
-	<property name="LOG_BASE_PATH" value="/Users/micro/logs/"></property>
+	<property name="LOG_BASE_PATH" value="/Users/micro/logs/ss"></property>
   <appender name="stdout" class="ch.qos.logback.core.ConsoleAppender">  
     <layout class="ch.qos.logback.classic.PatternLayout">  
       <pattern>%-20(%d{HH:mm:ss.SSS} [%thread]) %-5level %logger{80} - %msg%n</pattern>  
     </layout>  
   </appender>
+  <appender name="mainAppender" class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<File>${LOG_BASE_PATH}/main.log</File>
+		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+		    <!-- daily rollover -->
+			<FileNamePattern>${LOG_BASE_PATH}/main-log.%d{yyyy-MM-dd}.log</FileNamePattern>
+			<!-- keep 30 days' worth of history -->
+			<maxHistory>100</maxHistory>
+		</rollingPolicy>
+		<encoder>
+			<Pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{35} - %msg %n</Pattern>
+		</encoder> 	    
+  	</appender>
+    
+    <appender name="apiAppender" class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<File>${LOG_BASE_PATH}/api.log</File>
+		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+		    <!-- daily rollover -->
+			<FileNamePattern>${LOG_BASE_PATH}/api-log.%d{yyyy-MM-dd}.log</FileNamePattern>
+			<!-- keep 30 days' worth of history -->
+			<maxHistory>100</maxHistory>
+		</rollingPolicy>
+		<encoder>
+			<Pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{35} - %msg %n</Pattern>
+		</encoder> 	    
+  	</appender>
+    
+    <appender name="exceptionAppender" class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<File>${LOG_BASE_PATH}/exception.log</File>
+		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+		    <!-- daily rollover -->
+			<FileNamePattern>${LOG_BASE_PATH}/exception-log.%d{yyyy-MM-dd}.log</FileNamePattern>
+			
+			<!-- keep 30 days' worth of history -->
+			<maxHistory>100</maxHistory>
+		</rollingPolicy>
+ 
+		<encoder>
+			<Pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{35} - %msg %n</Pattern>
+		</encoder> 	    
+  	</appender>   
   
-  <root level="INFO">  
+  <logger name="main" level="DEBUG">
+  	<appender-ref ref="mainAppender"/>
+  </logger>
+  
+  <logger name="api" level="DEBUG">
+  	<appender-ref ref="apiAppender"/>
+  </logger>
+  
+  <logger name="exception">
+  	<appender-ref ref="exceptionAppender"/>
+  </logger>
+  
+  <root level="DEBUG">  
     <appender-ref ref="stdout" />
   </root>  
 </configuration> 

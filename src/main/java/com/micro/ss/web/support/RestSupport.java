@@ -10,7 +10,7 @@ import com.micro.ss.web.enums.ResultEnum;
  * @author mapc 
  * @date 2017年7月1日
  */
-public abstract class RestSupport {
+public abstract class RestSupport extends LoggerSupport {
 	
 	protected ObjectMapper objectMapper = new ObjectMapper();
 

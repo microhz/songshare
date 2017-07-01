@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.micro.ss.web.annotations.UnLogCheck;
 import com.micro.ss.web.constants.UserConstants;
 import com.micro.ss.web.data.model.UserInfo;
 import com.micro.ss.web.enums.ResponseInfoEnum;
@@ -28,6 +29,7 @@ public class UserController extends ControllerSupport {
 	 */
 	@RequestMapping("register")
 	@ResponseBody
+	@UnLogCheck
 	public String reg(@RequestParam("name") String name,
 			@RequestParam(value = "provinceId", required = false) Integer provinceId,
 			@RequestParam(value = "age", required = false) Integer age,
@@ -63,6 +65,7 @@ public class UserController extends ControllerSupport {
 	 */
 	@RequestMapping("login")
 	@ResponseBody
+	@UnLogCheck
 	public String login(@RequestParam("username") String userNameOrEmail,
 			@RequestParam("password") String password, HttpSession httpSession){
 		UserInfo userInfo = new UserInfo();

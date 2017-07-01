@@ -20,6 +20,7 @@ public class UserServiceImpl extends ServiceSupport implements UserService {
 		try {
 			userInfoMapper.insert(userInfo);
 		} catch (Exception ex) {
+			getExceptionLogger().error("register user error", ex);
 			return false;
 		}
 		return true;
@@ -45,8 +46,7 @@ public class UserServiceImpl extends ServiceSupport implements UserService {
 			userInfoExample.or().andIdEqualTo(userInfo.getId());
 			userInfoMapper.updateByExampleSelective(userInfo, userInfoExample);
 		} catch (Exception ex) {
-			ex.printStackTrace();
-			// TODO record log
+			getExceptionLogger().error("updateUserInfo error", ex);
 			return false;
 		}
 		return true;

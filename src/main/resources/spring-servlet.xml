@@ -35,6 +35,9 @@
 		<bean class="com.micro.ss.web.intercepter.LogCheckIntercepter"/>
 	</mvc:interceptors>
 	
+	<!-- 开启aspect代理 -->
+	<aop:aspectj-autoproxy proxy-target-class="true" />
+	
 	<!-- db配置 -->
 	<import resource="mybatis.xml" />
 </beans>
