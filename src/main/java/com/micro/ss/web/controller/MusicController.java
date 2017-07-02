@@ -15,10 +15,13 @@ import com.micro.ss.web.annotations.UnLogCheck;
 import com.micro.ss.web.data.model.MusicCommentary;
 import com.micro.ss.web.data.model.MusicInfo;
 import com.micro.ss.web.data.model.UserCollection;
+import com.micro.ss.web.data.model.UserListenRecord;
 import com.micro.ss.web.enums.FileTypeEnum;
 import com.micro.ss.web.enums.MusicCommentaryEnum;
 import com.micro.ss.web.enums.MusicStatusEnum;
 import com.micro.ss.web.enums.ResponseInfoEnum;
+import com.micro.ss.web.enums.StatusEnum;
+import com.micro.ss.web.pojo.MusicDetail;
 import com.micro.ss.web.support.ControllerSupport;
 
 /**
@@ -36,6 +39,20 @@ public class MusicController extends ControllerSupport {
 			return fail(ResponseInfoEnum.NOT_LOGIN.getInfo());
 		}
 		return ok(musicService.getUploadMusic(curUserId()));
+	}
+	
+	@RequestMapping("getMusicDetailById.do")
+	@ResponseBody
+	@UnLogCheck
+	public String getMusic(@RequestParam("musicId") Long musicId) {
+		MusicInfo musicInfo = musicService.getMusicById(musicId);
+		if (musicInfo == null) return fail(ResponseInfoEnum.MUSIC_NOT_EXITS.getInfo());
+		MusicDetail musicDetail = musicService.getMusicDetailById(musicId);
+		if (musicDetail != null) {
+			// 转换map
+			return ok(musicDetail);
+		}
+		return fail(ResponseInfoEnum.MUSIC_NOT_EXITS.getInfo());
 	}
 	
 	/**
@@ -187,5 +204,20 @@ public class MusicController extends ControllerSupport {
 			getExceptionLogger().error("upload file error ,", e);
 		}
 		return fail(ResponseInfoEnum.SYSTEM_ERROR.getInfo());
+	}
+	
+	/**
+	 * 音乐播放记录
+	 */
+	@RequestMapping("record")
+	@ResponseBody
+	public String record(@RequestParam("musicId") Long musicId) {
+		UserListenRecord userListenRecord = new UserListenRecord();
+		if (curUser() != null) userListenRecord.setUserId(curUserId());
+		userListenRecord.setListenTime(new Date());
+		userListenRecord.setMusicId(musicId);
+		userListenRecord.setStatus(StatusEnum.NORMAL.getStatus());
+		musicService.addUserListenRecord(userListenRecord);
+		return ok();
 	}
 }

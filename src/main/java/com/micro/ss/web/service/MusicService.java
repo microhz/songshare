@@ -5,6 +5,8 @@ import java.util.List;
 import com.micro.ss.web.data.model.MusicCommentary;
 import com.micro.ss.web.data.model.MusicInfo;
 import com.micro.ss.web.data.model.UserCollection;
+import com.micro.ss.web.data.model.UserListenRecord;
+import com.micro.ss.web.pojo.MusicDetail;
 
 /**
  * @author mapc 
@@ -24,6 +26,8 @@ public interface MusicService {
 	boolean addMusic(MusicInfo musicInfo);
 	
 	MusicInfo getMusicById(Long musicId);
+	
+	MusicDetail getMusicDetailById(Long musicId);
 	
 	boolean deleteMusic(Long musicId);
 	
@@ -46,4 +50,9 @@ public interface MusicService {
 	 * 音乐评论
 	 */
 	boolean comment(MusicCommentary musicCommentary);
+	
+	/**
+	 * 音乐试听记录
+	 */
+	boolean addUserListenRecord(UserListenRecord userListenRecord);
 }
