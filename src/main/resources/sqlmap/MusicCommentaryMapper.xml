@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.micro.ss.web.data.mapper.MusciCommentaryMapper" >
-  <resultMap id="BaseResultMap" type="com.micro.ss.web.data.model.MusciCommentary" >
+<mapper namespace="com.micro.ss.web.data.mapper.MusicCommentaryMapper" >
+  <resultMap id="BaseResultMap" type="com.micro.ss.web.data.model.MusicCommentary" >
     <id column="id" property="id" jdbcType="BIGINT" />
     <result column="target_id" property="targetId" jdbcType="BIGINT" />
     <result column="commentary" property="commentary" jdbcType="VARCHAR" />
@@ -71,7 +71,7 @@
   <sql id="Base_Column_List" >
     id, target_id, commentary, user_id, status, create_time, type
   </sql>
-  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.micro.ss.web.data.model.MusciCommentaryExample" >
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.micro.ss.web.data.model.MusicCommentaryExample" >
     select
     <if test="distinct" >
       distinct
@@ -95,13 +95,13 @@
     delete from music_commentary
     where id = #{id,jdbcType=BIGINT}
   </delete>
-  <delete id="deleteByExample" parameterType="com.micro.ss.web.data.model.MusciCommentaryExample" >
+  <delete id="deleteByExample" parameterType="com.micro.ss.web.data.model.MusicCommentaryExample" >
     delete from music_commentary
     <if test="_parameter != null" >
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" parameterType="com.micro.ss.web.data.model.MusciCommentary" >
+  <insert id="insert" parameterType="com.micro.ss.web.data.model.MusicCommentary" >
     insert into music_commentary (id, target_id, commentary, 
       user_id, status, create_time, 
       type)
@@ -109,7 +109,7 @@
       #{userId,jdbcType=BIGINT}, #{status,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, 
       #{type,jdbcType=INTEGER})
   </insert>
-  <insert id="insertSelective" parameterType="com.micro.ss.web.data.model.MusciCommentary" >
+  <insert id="insertSelective" parameterType="com.micro.ss.web.data.model.MusicCommentary" >
     insert into music_commentary
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -158,7 +158,7 @@
       </if>
     </trim>
   </insert>
-  <select id="countByExample" parameterType="com.micro.ss.web.data.model.MusciCommentaryExample" resultType="java.lang.Integer" >
+  <select id="countByExample" parameterType="com.micro.ss.web.data.model.MusicCommentaryExample" resultType="java.lang.Integer" >
     select count(*) from music_commentary
     <if test="_parameter != null" >
       <include refid="Example_Where_Clause" />
@@ -206,7 +206,7 @@
       <include refid="Update_By_Example_Where_Clause" />
     </if>
   </update>
-  <update id="updateByPrimaryKeySelective" parameterType="com.micro.ss.web.data.model.MusciCommentary" >
+  <update id="updateByPrimaryKeySelective" parameterType="com.micro.ss.web.data.model.MusicCommentary" >
     update music_commentary
     <set >
       <if test="targetId != null" >
@@ -230,7 +230,7 @@
     </set>
     where id = #{id,jdbcType=BIGINT}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.micro.ss.web.data.model.MusciCommentary" >
+  <update id="updateByPrimaryKey" parameterType="com.micro.ss.web.data.model.MusicCommentary" >
     update music_commentary
     set target_id = #{targetId,jdbcType=BIGINT},
       commentary = #{commentary,jdbcType=VARCHAR},

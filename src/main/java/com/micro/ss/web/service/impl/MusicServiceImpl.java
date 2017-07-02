@@ -5,6 +5,8 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
+import com.micro.ss.web.data.model.MusicCommentary;
+import com.micro.ss.web.data.model.MusicCommentaryExample;
 import com.micro.ss.web.data.model.MusicInfo;
 import com.micro.ss.web.data.model.MusicInfoExample;
 import com.micro.ss.web.data.model.MusicRecommend;
@@ -88,6 +90,15 @@ public class MusicServiceImpl extends ServiceSupport implements MusicService {
 		userMusicScore.setUserId(userId);
 		userMusicScore.setDate(new Date());
 		userMusicScoreMapper.insert(userMusicScore);
+		return true;
+	}
+
+	public boolean comment(MusicCommentary musicCommentary) {
+		// 检查是否已经存在评论
+		MusicCommentaryExample musicCommentaryExample = new MusicCommentaryExample();
+		musicCommentaryExample.or().andUserIdEqualTo(musicCommentary.getUserId()).andTargetIdEqualTo(musicCommentary.getTargetId()).andTypeEqualTo(musicCommentary.getType());
+		if (musicCommentaryMapper.countByExample(musicCommentaryExample) > 0) return true;
+		musicCommentaryMapper.insert(musicCommentary);
 		return true;
 	}
 

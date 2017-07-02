@@ -1,5 +1,7 @@
 package com.micro.ss.web.controller;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.Date;
 
 import org.apache.commons.lang3.StringUtils;
@@ -7,10 +9,15 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartRequest;
 
 import com.micro.ss.web.annotations.UnLogCheck;
+import com.micro.ss.web.data.model.MusicCommentary;
 import com.micro.ss.web.data.model.MusicInfo;
 import com.micro.ss.web.data.model.UserCollection;
+import com.micro.ss.web.enums.FileTypeEnum;
+import com.micro.ss.web.enums.MusicCommentaryEnum;
 import com.micro.ss.web.enums.MusicStatusEnum;
 import com.micro.ss.web.enums.ResponseInfoEnum;
 import com.micro.ss.web.support.ControllerSupport;
@@ -139,5 +146,44 @@ public class MusicController extends ControllerSupport {
 			return ok();
 		}
 		return fail("score limit");
+	}
+	
+	/**
+	 * 音乐评论
+	 */
+	@RequestMapping("comment")
+	@ResponseBody
+	public String comment(@RequestParam("musicId") Long musicId,@RequestParam("commentary") String commentary) {
+		if (curUser() == null) {
+			return fail(ResponseInfoEnum.NOT_LOGIN.getInfo());
+		}
+		if (StringUtils.isBlank(commentary)) {
+			return fail(ResponseInfoEnum.PARAM_ERROR.getInfo());
+		}
+		MusicCommentary musicCommentary = new MusicCommentary();
+		musicCommentary.setUserId(curUserId());
+		musicCommentary.setTargetId(musicId);
+		musicCommentary.setType(MusicCommentaryEnum.SIGLE_MUSIC.getTypeCode());
+		musicCommentary.setCommentary(commentary);
+		return ok();
+	}
+	
+	/**
+	 * 音乐上传
+	 */
+	@RequestMapping("upload")
+	@ResponseBody
+	public String upload(@RequestParam("file") MultipartFile multipartFile) {
+		if (curUser() == null) {
+			return fail(ResponseInfoEnum.NOT_LOGIN.getInfo());
+		}
+		try {
+			InputStream inputStream = multipartFile.getInputStream();
+			String url = fileService.upload(inputStream, FileTypeEnum.MUSIC);
+			return ok(url);
+		} catch (IOException e) {
+			getExceptionLogger().error("upload file error ,", e);
+		}
+		return fail(ResponseInfoEnum.SYSTEM_ERROR.getInfo());
 	}
 }

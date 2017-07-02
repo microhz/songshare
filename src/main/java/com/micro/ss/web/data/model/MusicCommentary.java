@@ -2,7 +2,7 @@ package com.micro.ss.web.data.model;
 
 import java.util.Date;
 
-public class MusciCommentary {
+public class MusicCommentary {
     private Long id;
 
     private Long targetId;

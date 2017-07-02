@@ -2,6 +2,7 @@ package com.micro.ss.web.service;
 
 import java.util.List;
 
+import com.micro.ss.web.data.model.MusicCommentary;
 import com.micro.ss.web.data.model.MusicInfo;
 import com.micro.ss.web.data.model.UserCollection;
 
@@ -40,4 +41,9 @@ public interface MusicService {
 	 * 音乐评分
 	 */
 	boolean score(Long musicId, Long userId, Integer score);
+	
+	/**
+	 * 音乐评论
+	 */
+	boolean comment(MusicCommentary musicCommentary);
 }

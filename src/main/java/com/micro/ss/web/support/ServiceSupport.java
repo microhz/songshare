@@ -6,6 +6,7 @@ package com.micro.ss.web.support;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.micro.ss.web.data.mapper.MusicCommentaryMapper;
 import com.micro.ss.web.data.mapper.MusicInfoMapper;
 import com.micro.ss.web.data.mapper.MusicRecommendMapper;
 import com.micro.ss.web.data.mapper.UserCollectionMapper;
@@ -28,4 +29,7 @@ public abstract class ServiceSupport extends LoggerSupport {
 	
 	@Autowired
 	protected UserMusicScoreMapper userMusicScoreMapper;
+	
+	@Autowired
+	protected MusicCommentaryMapper musicCommentaryMapper;
 }

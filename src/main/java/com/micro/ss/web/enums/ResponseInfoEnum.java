@@ -15,6 +15,8 @@ public enum ResponseInfoEnum {
 	UPDATE_ERROR("更新失败"),
 	SYSTEM_ERROR("系统异常"),
 	
+	PARAM_ERROR("参数错误"),
+	
 	// ------
 	MUSIC_NOT_EXITS("音乐不存在");
 	
