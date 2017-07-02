@@ -31,6 +31,7 @@ public class LogCheckIntercepter extends ControllerSupport implements HandlerInt
 				return curUser() == null ? false : true;
 			}
 		}
+		if (!request.getRequestURI().endsWith(".do")) return true;
 		getMainLogger().error("reject forbiden request : " + request.getRequestURI());
 		response.sendError(HttpStatus.FORBIDDEN.value(), ResponseInfoEnum.NOT_LOGIN.getInfo());
 		return false;

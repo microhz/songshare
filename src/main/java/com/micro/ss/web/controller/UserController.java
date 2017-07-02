@@ -1,6 +1,8 @@
 package com.micro.ss.web.controller;
 
 
+import java.util.Date;
+
 import javax.servlet.http.HttpSession;
 
 import org.apache.commons.lang3.StringUtils;
@@ -28,7 +30,7 @@ public class UserController extends ControllerSupport {
 	 * 用户注册
 	 * @return
 	 */
-	@RequestMapping("register")
+	@RequestMapping("register.do")
 	@ResponseBody
 	@UnLogCheck
 	public String reg(@RequestParam("name") String name,
@@ -55,6 +57,7 @@ public class UserController extends ControllerSupport {
 		userInfo.setJob(job);
 		userInfo.setQq(qq);
 		userInfo.setPageHome(pageHome);
+		userInfo.setRegisterTime(new Date());
 		if (userService.registerUser(userInfo)) {
 			return ok();
 		}
@@ -64,7 +67,7 @@ public class UserController extends ControllerSupport {
 	/**
 	 * 用户登录
 	 */
-	@RequestMapping("login")
+	@RequestMapping("login.do")
 	@ResponseBody
 	@UnLogCheck
 	public String login(@RequestParam("username") String userNameOrEmail,
@@ -87,7 +90,7 @@ public class UserController extends ControllerSupport {
 	/**
 	 * 用户登出
 	 */
-	@RequestMapping("logout")
+	@RequestMapping("logout.do")
 	@ResponseBody
 	public String logout() {
 		if (curUser() == null) {

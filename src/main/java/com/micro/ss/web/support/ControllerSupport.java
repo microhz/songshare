@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.micro.ss.web.constants.UserConstants;
 import com.micro.ss.web.data.model.UserInfo;
+import com.micro.ss.web.service.MusicService;
 import com.micro.ss.web.service.UserService;
 
 public abstract class ControllerSupport extends RestSupport {
@@ -17,6 +18,8 @@ public abstract class ControllerSupport extends RestSupport {
 	@Autowired
 	protected UserService userService;
 	
+	@Autowired
+	protected MusicService musicService;
 	@Autowired
 	protected HttpSession httpSession;
 

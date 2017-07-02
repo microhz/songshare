@@ -38,6 +38,7 @@
 	<!-- 开启aspect代理 -->
 	<aop:aspectj-autoproxy proxy-target-class="true" />
 	
+	<mvc:resources mapping="/pages/**" location="/statics/pages/" />
 	<!-- db配置 -->
 	<import resource="mybatis.xml" />
 </beans>
