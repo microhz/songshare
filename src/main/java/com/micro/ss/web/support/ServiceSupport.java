@@ -7,7 +7,10 @@ package com.micro.ss.web.support;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.micro.ss.web.data.mapper.MusicInfoMapper;
+import com.micro.ss.web.data.mapper.MusicRecommendMapper;
+import com.micro.ss.web.data.mapper.UserCollectionMapper;
 import com.micro.ss.web.data.mapper.UserInfoMapper;
+import com.micro.ss.web.data.mapper.UserMusicScoreMapper;
 
 public abstract class ServiceSupport extends LoggerSupport {
 	
@@ -16,4 +19,13 @@ public abstract class ServiceSupport extends LoggerSupport {
 	
 	@Autowired
 	protected MusicInfoMapper musicInfoMapper;
+	
+	@Autowired
+	protected MusicRecommendMapper musicRecommendMapper;
+	
+	@Autowired
+	protected UserCollectionMapper userCollectionMapper;
+	
+	@Autowired
+	protected UserMusicScoreMapper userMusicScoreMapper;
 }

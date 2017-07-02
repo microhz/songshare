@@ -13,7 +13,10 @@ public enum ResponseInfoEnum {
 	REGISTER_ERROR("注册失败"),
 	FORBIDEN("禁止操作"),
 	UPDATE_ERROR("更新失败"),
-	SYSTEM_ERROR("系统异常");
+	SYSTEM_ERROR("系统异常"),
+	
+	// ------
+	MUSIC_NOT_EXITS("音乐不存在");
 	
 	private String info;
 

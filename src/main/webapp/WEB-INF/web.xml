@@ -23,6 +23,19 @@
 		<url-pattern>/*</url-pattern>
 	</filter-mapping>
 	
+	<filter>
+		<filter-name>logCheckFilter</filter-name>
+		<filter-class>com.micro.ss.web.filter.LoginFilter</filter-class>
+		<init-param>
+			<param-name>exceludeUrl</param-name>
+			<param-value>/index.html</param-value>
+		</init-param>
+	</filter>
+	<filter-mapping>
+		<filter-name>logCheckFilter</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
+	
 	<!-- servlet map -->
 	<servlet>
 		<servlet-name>spring-dispatcher</servlet-name>

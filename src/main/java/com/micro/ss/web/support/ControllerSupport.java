@@ -20,6 +20,7 @@ public abstract class ControllerSupport extends RestSupport {
 	
 	@Autowired
 	protected MusicService musicService;
+	
 	@Autowired
 	protected HttpSession httpSession;
 
