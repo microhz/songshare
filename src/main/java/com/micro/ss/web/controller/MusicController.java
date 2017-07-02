@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.multipart.MultipartRequest;
 
 import com.micro.ss.web.annotations.UnLogCheck;
 import com.micro.ss.web.data.model.MusicCommentary;
@@ -30,10 +29,10 @@ import com.micro.ss.web.support.ControllerSupport;
 @RequestMapping("music")
 public class MusicController extends ControllerSupport {
 
-	@RequestMapping("getUploadList")
+	@RequestMapping("getUploadList.do")
 	@ResponseBody
 	public String getCurUploadList() {
-		if (curUser() != null) {
+		if (curUser() == null) {
 			return fail(ResponseInfoEnum.NOT_LOGIN.getInfo());
 		}
 		return ok(musicService.getUploadMusic(curUserId()));
@@ -42,7 +41,7 @@ public class MusicController extends ControllerSupport {
 	/**
 	 * 音乐添加
 	 */
-	@RequestMapping("add")
+	@RequestMapping("add.do")
 	@ResponseBody
 	public String add(@RequestParam("name") String name,
 			@RequestParam("singer") String singer,
@@ -65,13 +64,16 @@ public class MusicController extends ControllerSupport {
 		musicInfo.setComment(comment);
 		musicInfo.setFileUrl(fileUrl);
 		musicInfo.setLyricsId(lyricsId);
+		musicInfo.setSinger(singer);
+		musicInfo.setSingerAlbum(album);
+		musicService.addMusic(musicInfo);
 		return ok();
 	}
 	
 	/**
 	 * 删除音乐
 	 */
-	@RequestMapping("delete")
+	@RequestMapping("delete.do")
 	@ResponseBody
 	public String delete(@RequestParam("musicId") Long musicId) {
 		if (curUser() == null) {
@@ -91,7 +93,7 @@ public class MusicController extends ControllerSupport {
 	/**
 	 * 音乐推荐
 	 */
-	@RequestMapping("recommend")
+	@RequestMapping("recommend.do")
 	@ResponseBody
 	public String recommend(Long musicId) {
 		if (curUser() == null) {
@@ -104,7 +106,7 @@ public class MusicController extends ControllerSupport {
 	/**
 	 * 音乐收藏
 	 */
-	@RequestMapping("collect")
+	@RequestMapping("collect.do")
 	@ResponseBody
 	public String collect(@RequestParam("musicId") Long musicId) {
 		if (curUser() == null) {
@@ -122,12 +124,12 @@ public class MusicController extends ControllerSupport {
 	/**
 	 * 链接分享
 	 */
-	@RequestMapping("shareUrl")
+	@RequestMapping("shareUrl.do")
 	@ResponseBody
 	@UnLogCheck
-	public String share(@RequestParam("music") Long musicId) {
+	public String share(@RequestParam("musicId") Long musicId) {
 		MusicInfo musicInfo = musicService.getMusicById(musicId);
-		if (musicId == null) {
+		if (musicInfo == null) {
 			return fail(ResponseInfoEnum.MUSIC_NOT_EXITS.getInfo());
 		}
 		return ok(musicInfo.getFileUrl());
@@ -136,7 +138,7 @@ public class MusicController extends ControllerSupport {
 	/**
 	 * 音乐评分
 	 */
-	@RequestMapping("score")
+	@RequestMapping("score.do")
 	@ResponseBody
 	public String score(@RequestParam("score") Integer score, @RequestParam("musicId") Long musicId) {
 		if (curUser() == null) {
@@ -151,7 +153,7 @@ public class MusicController extends ControllerSupport {
 	/**
 	 * 音乐评论
 	 */
-	@RequestMapping("comment")
+	@RequestMapping("comment.do")
 	@ResponseBody
 	public String comment(@RequestParam("musicId") Long musicId,@RequestParam("commentary") String commentary) {
 		if (curUser() == null) {
@@ -171,7 +173,7 @@ public class MusicController extends ControllerSupport {
 	/**
 	 * 音乐上传
 	 */
-	@RequestMapping("upload")
+	@RequestMapping("upload.do")
 	@ResponseBody
 	public String upload(@RequestParam("file") MultipartFile multipartFile) {
 		if (curUser() == null) {

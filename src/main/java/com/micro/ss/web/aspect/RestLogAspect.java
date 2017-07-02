@@ -13,6 +13,7 @@ import com.micro.ss.web.support.RestSupport;
 /**
  * @author mapc 
  * @date 2017年7月1日
+ * 捕获所有rest接口异常信息
  */
 @Aspect
 @Component

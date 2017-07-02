@@ -16,6 +16,7 @@ import com.micro.ss.web.data.model.UserCollectionExample;
 import com.micro.ss.web.data.model.UserMusicScore;
 import com.micro.ss.web.data.model.UserMusicScoreExample;
 import com.micro.ss.web.enums.MusicStatusEnum;
+import com.micro.ss.web.enums.StatusEnum;
 import com.micro.ss.web.service.MusicService;
 import com.micro.ss.web.support.ServiceSupport;
 
@@ -28,7 +29,7 @@ public class MusicServiceImpl extends ServiceSupport implements MusicService {
 
 	public List<MusicInfo> getUploadMusic(Long userId) {
 		MusicInfoExample musicInfoExample = new MusicInfoExample();
-		musicInfoExample.or().andUserIdEqualTo(userId);
+		musicInfoExample.or().andUserIdEqualTo(userId).andStatusEqualTo(MusicStatusEnum.NORMAL.getCode());
 		return musicInfoMapper.selectByExample(musicInfoExample);
 	}
 
@@ -67,6 +68,7 @@ public class MusicServiceImpl extends ServiceSupport implements MusicService {
 		musicRecommend.setUserId(userId);
 		musicRecommend.setMusicId(musicId);
 		musicRecommend.setCreateTime(new Date());
+		musicRecommend.setStatus(StatusEnum.NORMAL.getStatus());
 		musicRecommendMapper.insert(musicRecommend);
 		return true;
 	}

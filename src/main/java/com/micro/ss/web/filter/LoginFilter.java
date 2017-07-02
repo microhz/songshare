@@ -18,6 +18,7 @@ import com.micro.ss.web.constants.UserConstants;
 /**
  * @author mapc 
  * @date 2017年7月2日
+ * 静态页面非法过滤
  */
 public class LoginFilter extends DelegatingFilterProxy {
 	
@@ -28,7 +29,7 @@ public class LoginFilter extends DelegatingFilterProxy {
 			HttpServletRequest httpServletRequest = (HttpServletRequest) request;
 			String url = httpServletRequest.getRequestURI();
 			if (checkLogin(url)) {
-				if (httpServletRequest.getSession().getAttribute(UserConstants.CURRENT_USER_KEY) != null) {
+				if (httpServletRequest.getSession().getAttribute(UserConstants.CURRENT_USER_KEY) == null) {
 					((HttpServletResponse) response).sendRedirect("/ss/pages/index.html");
 				}
 			}
@@ -45,7 +46,8 @@ public class LoginFilter extends DelegatingFilterProxy {
 				return false;
 			}
 		}
-		return true;
+		if (url.endsWith(".do")) return false;
+		return url.endsWith(".html") ? true : false;
 	}
 	
 	

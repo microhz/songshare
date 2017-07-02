@@ -103,7 +103,7 @@ public class UserController extends ControllerSupport {
 	/**
 	 * 用户信息的完善更新
 	 */
-	@RequestMapping("update")
+	@RequestMapping("update.do")
 	@ResponseBody
 	public String update(@RequestParam(value = "name", required = false) String name,
 			@RequestParam(value = "provinceId", required = false) Integer provinceId,

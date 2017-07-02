@@ -23,18 +23,24 @@ public class LogCheckIntercepter extends ControllerSupport implements HandlerInt
 
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
 			throws Exception {
+		boolean forbiden = false;
 		if (handler instanceof HandlerMethod) {
 			HandlerMethod handlerMethod = (HandlerMethod) handler;
 			if (handlerMethod.getMethodAnnotation(UnLogCheck.class) != null) {
 				return true;
 			} else {
-				return curUser() == null ? false : true;
+				if (curUser() == null) {
+					forbiden = true;
+				}
 			}
 		}
 		if (!request.getRequestURI().endsWith(".do")) return true;
-		getMainLogger().error("reject forbiden request : " + request.getRequestURI());
-		response.sendError(HttpStatus.FORBIDDEN.value(), ResponseInfoEnum.NOT_LOGIN.getInfo());
-		return false;
+		if (forbiden) {
+			getMainLogger().error("reject forbiden request : " + request.getRequestURI());
+			response.sendError(HttpStatus.FORBIDDEN.value(), ResponseInfoEnum.NOT_LOGIN.getInfo());
+			return false;
+		}
+		return true;
 	}
 
 	public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler,
