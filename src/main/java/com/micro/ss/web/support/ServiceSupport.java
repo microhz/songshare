@@ -17,7 +17,6 @@ import com.micro.ss.web.data.mapper.UserCollectionMapper;
 import com.micro.ss.web.data.mapper.UserInfoMapper;
 import com.micro.ss.web.data.mapper.UserListenRecordMapper;
 import com.micro.ss.web.data.mapper.UserMusicScoreMapper;
-import com.micro.ss.web.data.model.MusicTag;
 
 public abstract class ServiceSupport extends LoggerSupport {
 	

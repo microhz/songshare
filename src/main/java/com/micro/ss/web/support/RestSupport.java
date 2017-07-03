@@ -44,8 +44,7 @@ public abstract class RestSupport extends LoggerSupport {
 		try {
 			return objectMapper.writeValueAsString(result);
 		} catch (JsonProcessingException e) {
-			e.printStackTrace();
-			// TODO record log
+			getExceptionLogger().error("parse result error ", e);
 		}
 		return null;
 	}
