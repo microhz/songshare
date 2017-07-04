@@ -19,7 +19,7 @@ import com.micro.ss.web.data.model.UserListenRecord;
 import com.micro.ss.web.enums.FileTypeEnum;
 import com.micro.ss.web.enums.MusicCommentaryEnum;
 import com.micro.ss.web.enums.MusicStatusEnum;
-import com.micro.ss.web.enums.ResponseInfoEnum;
+import com.micro.ss.web.enums.ErrorMsgEnum;
 import com.micro.ss.web.enums.StatusEnum;
 import com.micro.ss.web.pojo.MusicDetail;
 import com.micro.ss.web.support.ControllerSupport;
@@ -36,7 +36,7 @@ public class MusicController extends ControllerSupport {
 	@ResponseBody
 	public String getCurUploadList() {
 		if (curUser() == null) {
-			return fail(ResponseInfoEnum.NOT_LOGIN.getInfo());
+			return fail(ErrorMsgEnum.NOT_LOGIN);
 		}
 		return ok(musicService.getUploadMusic(curUserId()));
 	}
@@ -46,13 +46,13 @@ public class MusicController extends ControllerSupport {
 	@UnLogCheck
 	public String getMusic(@RequestParam("musicId") Long musicId) {
 		MusicInfo musicInfo = musicService.getMusicById(musicId);
-		if (musicInfo == null) return fail(ResponseInfoEnum.MUSIC_NOT_EXITS.getInfo());
+		if (musicInfo == null) return fail(ErrorMsgEnum.MUSIC_NOT_EXITS);
 		MusicDetail musicDetail = musicService.getMusicDetailById(musicId);
 		if (musicDetail != null) {
 			// 转换map
 			return ok(musicDetail);
 		}
-		return fail(ResponseInfoEnum.MUSIC_NOT_EXITS.getInfo());
+		return fail(ErrorMsgEnum.MUSIC_NOT_EXITS);
 	}
 	
 	/**
@@ -67,7 +67,7 @@ public class MusicController extends ControllerSupport {
 			@RequestParam("fileUrl") String fileUrl,
 			@RequestParam(value = "lyrics", required = false) String lyrics) {
 		if (curUser() == null) {
-			return fail(ResponseInfoEnum.NOT_LOGIN.getInfo());
+			return fail(ErrorMsgEnum.NOT_LOGIN);
 		}
 		Long lyricsId = null;
 		if (StringUtils.isNoneBlank(lyrics)) {
@@ -94,14 +94,14 @@ public class MusicController extends ControllerSupport {
 	@ResponseBody
 	public String delete(@RequestParam("musicId") Long musicId) {
 		if (curUser() == null) {
-			return fail(ResponseInfoEnum.NOT_LOGIN.getInfo());
+			return fail(ErrorMsgEnum.NOT_LOGIN);
 		}
 		MusicInfo musicInfo = musicService.getMusicById(musicId);
 		if (musicInfo == null) {
-			return fail(ResponseInfoEnum.MUSIC_NOT_EXITS.getInfo());
+			return fail(ErrorMsgEnum.MUSIC_NOT_EXITS);
 		}
 		if (musicInfo.getUserId() != curUserId()) {
-			return fail(ResponseInfoEnum.FORBIDEN.getInfo());
+			return fail(ErrorMsgEnum.FORBIDEN);
 		}
 		musicService.deleteMusic(musicId);
 		return ok();
@@ -114,7 +114,7 @@ public class MusicController extends ControllerSupport {
 	@ResponseBody
 	public String recommend(Long musicId) {
 		if (curUser() == null) {
-			return fail(ResponseInfoEnum.NOT_LOGIN.getInfo());
+			return fail(ErrorMsgEnum.NOT_LOGIN);
 		}
 		musicService.recommnd(curUserId(), musicId);
 		return ok();
@@ -127,7 +127,7 @@ public class MusicController extends ControllerSupport {
 	@ResponseBody
 	public String collect(@RequestParam("musicId") Long musicId) {
 		if (curUser() == null) {
-			return fail(ResponseInfoEnum.NOT_LOGIN.getInfo());
+			return fail(ErrorMsgEnum.NOT_LOGIN);
 		}
 		UserCollection userCollection = new UserCollection();
 		userCollection.setCreateTime(new Date());
@@ -147,7 +147,7 @@ public class MusicController extends ControllerSupport {
 	public String share(@RequestParam("musicId") Long musicId) {
 		MusicInfo musicInfo = musicService.getMusicById(musicId);
 		if (musicInfo == null) {
-			return fail(ResponseInfoEnum.MUSIC_NOT_EXITS.getInfo());
+			return fail(ErrorMsgEnum.MUSIC_NOT_EXITS);
 		}
 		return ok(musicInfo.getFileUrl());
 	}
@@ -159,7 +159,7 @@ public class MusicController extends ControllerSupport {
 	@ResponseBody
 	public String score(@RequestParam("score") Integer score, @RequestParam("musicId") Long musicId) {
 		if (curUser() == null) {
-			return fail(ResponseInfoEnum.NOT_LOGIN.getInfo());
+			return fail(ErrorMsgEnum.NOT_LOGIN);
 		}
 		if (score >= 0 && score <= 5 && musicService.score(musicId, curUserId(), score)) {
 			return ok();
@@ -174,10 +174,10 @@ public class MusicController extends ControllerSupport {
 	@ResponseBody
 	public String comment(@RequestParam("musicId") Long musicId,@RequestParam("commentary") String commentary) {
 		if (curUser() == null) {
-			return fail(ResponseInfoEnum.NOT_LOGIN.getInfo());
+			return fail(ErrorMsgEnum.NOT_LOGIN);
 		}
 		if (StringUtils.isBlank(commentary)) {
-			return fail(ResponseInfoEnum.PARAM_ERROR.getInfo());
+			return fail(ErrorMsgEnum.PARAM_ERROR);
 		}
 		MusicCommentary musicCommentary = new MusicCommentary();
 		musicCommentary.setUserId(curUserId());
@@ -194,7 +194,7 @@ public class MusicController extends ControllerSupport {
 	@ResponseBody
 	public String upload(@RequestParam("file") MultipartFile multipartFile) {
 		if (curUser() == null) {
-			return fail(ResponseInfoEnum.NOT_LOGIN.getInfo());
+			return fail(ErrorMsgEnum.NOT_LOGIN);
 		}
 		try {
 			InputStream inputStream = multipartFile.getInputStream();
@@ -203,7 +203,7 @@ public class MusicController extends ControllerSupport {
 		} catch (IOException e) {
 			getExceptionLogger().error("upload file error ,", e);
 		}
-		return fail(ResponseInfoEnum.SYSTEM_ERROR.getInfo());
+		return fail(ErrorMsgEnum.SYSTEM_ERROR);
 	}
 	
 	/**

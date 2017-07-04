@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.micro.ss.web.annotations.UnLogCheck;
 import com.micro.ss.web.constants.UserConstants;
 import com.micro.ss.web.data.model.UserInfo;
-import com.micro.ss.web.enums.ResponseInfoEnum;
+import com.micro.ss.web.enums.ErrorMsgEnum;
 import com.micro.ss.web.support.ControllerSupport;
 import com.micro.ss.web.utils.MD5Utils;
 
@@ -61,7 +61,7 @@ public class UserController extends ControllerSupport {
 		if (userService.registerUser(userInfo)) {
 			return ok();
 		}
-		return fail(ResponseInfoEnum.REGISTER_ERROR.getInfo());
+		return fail(ErrorMsgEnum.REGISTER_ERROR);
 	}
 	
 	/**
@@ -80,7 +80,7 @@ public class UserController extends ControllerSupport {
 			userInfo.setName(userNameOrEmail);
 			user = userService.getUserInfoByEmail(userNameOrEmail, password);
 			if (user == null) {
-				return fail(ResponseInfoEnum.NAME_OR_PASSWORD_ERROR.getInfo());
+				return fail(ErrorMsgEnum.NAME_OR_PASSWORD_ERROR);
 			}
 		}
 		httpSession.setAttribute(UserConstants.CURRENT_USER_KEY, user);
@@ -118,7 +118,7 @@ public class UserController extends ControllerSupport {
 			@RequestParam(value = "pageHome",required = false) String pageHome
 			) {
 		if (curUser() == null) {
-			return fail(ResponseInfoEnum.FORBIDEN.getInfo());
+			return fail(ErrorMsgEnum.FORBIDEN);
 		}
 		UserInfo userInfo = new UserInfo();
 		userInfo.setId(curUser().getId());
@@ -136,7 +136,7 @@ public class UserController extends ControllerSupport {
 		if (userService.updateUserInfo(userInfo)) {
 			return ok();
 		}
-		return fail(ResponseInfoEnum.UPDATE_ERROR.getInfo());
+		return fail(ErrorMsgEnum.UPDATE_ERROR);
 	}
 	
 }

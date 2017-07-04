@@ -10,7 +10,7 @@ import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.micro.ss.web.annotations.UnLogCheck;
-import com.micro.ss.web.enums.ResponseInfoEnum;
+import com.micro.ss.web.enums.ErrorMsgEnum;
 import com.micro.ss.web.support.ControllerSupport;
 
 /**
@@ -37,7 +37,7 @@ public class LogCheckIntercepter extends ControllerSupport implements HandlerInt
 		if (!request.getRequestURI().endsWith(".do")) return true;
 		if (forbiden) {
 			getMainLogger().error("reject forbiden request : " + request.getRequestURI());
-			response.sendError(HttpStatus.FORBIDDEN.value(), ResponseInfoEnum.NOT_LOGIN.getInfo());
+			response.sendError(HttpStatus.FORBIDDEN.value(), ErrorMsgEnum.NOT_LOGIN);
 			return false;
 		}
 		return true;

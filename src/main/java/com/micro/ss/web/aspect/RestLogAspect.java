@@ -6,7 +6,7 @@ import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
 import org.springframework.stereotype.Component;
 
-import com.micro.ss.web.enums.ResponseInfoEnum;
+import com.micro.ss.web.enums.ErrorMsgEnum;
 import com.micro.ss.web.support.RestSupport;
 
 
@@ -46,6 +46,6 @@ public class RestLogAspect extends RestSupport {
 		} catch (Throwable e) {
 			getExceptionLogger().error("execute controller error , msg : " + e.getMessage());
 		}
-		return fail(ResponseInfoEnum.SYSTEM_ERROR.getInfo());
+		return fail(ErrorMsgEnum.SYSTEM_ERROR);
 	}
 }
