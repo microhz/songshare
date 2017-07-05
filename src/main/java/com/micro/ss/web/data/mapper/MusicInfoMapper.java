@@ -27,4 +27,6 @@ public interface MusicInfoMapper {
     int updateByPrimaryKeySelective(MusicInfo record);
 
     int updateByPrimaryKey(MusicInfo record);
+    
+    List<MusicInfo> limitSelectByExample(MusicInfoExample example);
 }

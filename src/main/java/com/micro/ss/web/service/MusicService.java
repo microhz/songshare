@@ -14,7 +14,7 @@ import com.micro.ss.web.pojo.MusicDetail;
  */
 public interface MusicService {
 
-	List<MusicInfo> getUploadMusic(Long userId);
+	List<MusicInfo> getUploadMusic(Long userId, Integer page, Integer size);
 	
 	/**
 	 * 
@@ -59,7 +59,7 @@ public interface MusicService {
 	/**
 	 * 最新推荐n首音乐
 	 */
-	List<MusicInfo> getRecentRecommendMusicList();
+	List<MusicInfo> getRecentRecommendMusicList(Integer limit);
 	
 	/**
 	 * 模糊查询音乐
@@ -70,5 +70,15 @@ public interface MusicService {
 	 * 标签查询音乐
 	 */
 	List<MusicInfo> getMusicListByTag(Long tagId, Integer page, Integer size);
+	
+	/**
+	 * 分页获取用户推荐
+	 */
+	List<MusicInfo> getRecommendMusicList(Long userId, Integer page,Integer size);
+	
+	/**
+	 * 分页查看用户分享（上传）的音乐列表
+	 */
+	List<MusicInfo> getShareMusicList(Long userId, Integer page, Integer size);
 }
 

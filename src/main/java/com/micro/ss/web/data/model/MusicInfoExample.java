@@ -4,7 +4,9 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-public class MusicInfoExample {
+import com.micro.ss.web.support.PageSizeSupport;
+
+public class MusicInfoExample extends PageSizeSupport {
     protected String orderByClause;
 
     protected boolean distinct;

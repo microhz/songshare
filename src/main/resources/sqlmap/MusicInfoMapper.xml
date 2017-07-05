@@ -90,6 +90,23 @@
       order by ${orderByClause}
     </if>
   </select>
+  <select id="limitSelectByExample" resultMap="BaseResultMap" parameterType="com.micro.ss.web.data.model.MusicInfoExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from music_info
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+    <if test="start != null AND end != null">
+    	limit start,end
+    </if>
+  </select>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
     select 
     <include refid="Base_Column_List" />

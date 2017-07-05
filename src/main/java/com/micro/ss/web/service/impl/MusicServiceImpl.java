@@ -44,10 +44,14 @@ import com.micro.ss.web.support.ServiceSupport;
 @Service
 public class MusicServiceImpl extends ServiceSupport implements MusicService {
 
-	public List<MusicInfo> getUploadMusic(Long userId) {
+	public List<MusicInfo> getUploadMusic(Long userId, Integer page, Integer size) {
 		MusicInfoExample musicInfoExample = new MusicInfoExample();
 		musicInfoExample.or().andUserIdEqualTo(userId).andStatusEqualTo(MusicStatusEnum.NORMAL.getCode());
-		return musicInfoMapper.selectByExample(musicInfoExample);
+		if (page != null && size != null) {
+			musicInfoExample.setStart(page * size);
+			musicInfoExample.setEnd(size);
+		}
+		return musicInfoMapper.limitSelectByExample(musicInfoExample);
 	}
 
 	public Long addLyrics(String lyrics) {
@@ -279,11 +283,11 @@ public class MusicServiceImpl extends ServiceSupport implements MusicService {
 		return new ArrayList<Album>();
 	}
 
-	public List<MusicInfo> getRecentRecommendMusicList() {
+	public List<MusicInfo> getRecentRecommendMusicList(Integer limit) {
 		MusicRecommendExample musicRecommendExample = new MusicRecommendExample();
 		musicRecommendExample.setOrderByClause("create_time DESC");
 		musicRecommendExample.setStart(0);
-		musicRecommendExample.setEnd(recommendLimit);
+		musicRecommendExample.setEnd(limit != null ? limit : recommendLimit);
 		List<MusicRecommend> musicRecommendList = musicRecommendMapper.limitSelectByExample(musicRecommendExample);
 		if (musicRecommendList != null && musicRecommendList.size() > 0) {
 			final List<Long> musicIdList = new ArrayList<Long>();
@@ -337,6 +341,40 @@ public class MusicServiceImpl extends ServiceSupport implements MusicService {
 			}
 		}
 		return null;
+	}
+
+	public List<MusicInfo> getRecommendMusicList(Long userId, Integer page, Integer size) {
+		MusicRecommendExample musicRecommendExample = new MusicRecommendExample();
+		musicRecommendExample.or().andUserIdEqualTo(userId);
+		if (page != null && size != null && page > 0 && size > 0) {
+			musicRecommendExample.setStart(page * size);
+			musicRecommendExample.setEnd(size);
+		}
+		List<MusicRecommend> musicRecommendList = musicRecommendMapper.limitSelectByExample(musicRecommendExample);
+		if (musicRecommendList != null && musicRecommendList.size() > 0) {
+			List<Long> musicIdList = new ArrayList<Long>();
+			for (MusicRecommend musicRecommend : musicRecommendList) {
+				if (musicRecommend.getMusicId() != null) {
+					musicIdList.add(musicRecommend.getMusicId());
+				}
+			}
+			if (musicIdList.size() > 0) {
+				MusicInfoExample musicInfoExample = new MusicInfoExample();
+				musicInfoExample.or().andIdIn(musicIdList);
+				return musicInfoMapper.selectByExample(musicInfoExample);
+			}
+		}
+		return null;
+	}
+
+	public List<MusicInfo> getShareMusicList(Long userId, Integer page, Integer size) {
+		MusicInfoExample musicInfoExample = new MusicInfoExample();
+		musicInfoExample.or().andUserIdEqualTo(userId);
+		if (page != null && size != null && page > 0 && size > 0) {
+			musicInfoExample.setStart(page * size);
+			musicInfoExample.setEnd(size);
+		}
+		return musicInfoMapper.limitSelectByExample(musicInfoExample);
 	}
 
 }

@@ -33,11 +33,11 @@ public class MusicController extends ControllerSupport {
 
 	@RequestMapping("getUploadList.do")
 	@ResponseBody
-	public String getCurUploadList() {
+	public String getCurUploadList(@RequestParam("page") Integer page, @RequestParam("size") Integer size) {
 		if (curUser() == null) {
 			return fail(ErrorMsgEnum.NOT_LOGIN);
 		}
-		return ok(musicService.getUploadMusic(curUserId()));
+		return ok(musicService.getUploadMusic(curUserId(), page, size));
 	}
 	
 	@RequestMapping("getMusicDetailById.do")
@@ -223,8 +223,8 @@ public class MusicController extends ControllerSupport {
 	 */
 	@RequestMapping("getRentRecommendList.do")
 	@ResponseBody
-	public String getRecentRecommendMusicList() {
-		return ok(musicService.getRecentRecommendMusicList());
+	public String getRecentRecommendMusicList(@RequestParam(value = "count", required = false) Integer count) {
+		return ok(musicService.getRecentRecommendMusicList(count));
 	}
 	
 	/**
@@ -241,8 +241,29 @@ public class MusicController extends ControllerSupport {
 	 */
 	@RequestMapping("searchMusicListByTag")
 	@ResponseBody
-	public String searchTagMusic(@RequestParam("tagId") Long tagId, @RequestParam("page") Integer page, @RequestParam("size") Integer size) {
+	public String searchTagMusic(@RequestParam("tagId") Long tagId, @RequestParam(value = "page", defaultValue = "0") Integer page, @RequestParam(value = "size", defaultValue = "20") Integer size) {
 		return ok(musicService.getMusicListByTag(tagId, page, size));
+	}
+	
+	/**
+	 * 获取某个用户的推荐列表，分页
+	 */
+	@RequestMapping("searchRecommend")
+	@ResponseBody
+	public String searchRecoomend(@RequestParam("userId") Long userId,@RequestParam(value = "page", required = false) Integer page,@RequestParam(value = "size", required = false) Integer size) {
+		return ok(musicService.getRecommendMusicList(userId, page, size));
+	}
+	
+	/**
+	 * 查看某个用户分享（上传）的音乐
+	 */
+	@RequestMapping("searchList")
+	@ResponseBody
+	public String searchList(@RequestParam("userId") Long userId, @RequestParam(value = "page", required = false) Integer page, @RequestParam(value = "size", required = false) Integer size) {
+		if (userId == null) {
+			return fail(ErrorMsgEnum.PARAM_ERROR);
+		}
+		return ok(musicService.getShareMusicList(userId, page, size));
 	}
 	
 }
