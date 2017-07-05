@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.micro.ss.web.annotations.UnLogCheck;
 import com.micro.ss.web.data.model.MusicCommentary;
 import com.micro.ss.web.data.model.MusicInfo;
 import com.micro.ss.web.data.model.UserCollection;
@@ -43,7 +42,6 @@ public class MusicController extends ControllerSupport {
 	
 	@RequestMapping("getMusicDetailById.do")
 	@ResponseBody
-	@UnLogCheck
 	public String getMusic(@RequestParam("musicId") Long musicId) {
 		MusicInfo musicInfo = musicService.getMusicById(musicId);
 		if (musicInfo == null) return fail(ErrorMsgEnum.MUSIC_NOT_EXITS);
@@ -143,7 +141,6 @@ public class MusicController extends ControllerSupport {
 	 */
 	@RequestMapping("shareUrl.do")
 	@ResponseBody
-	@UnLogCheck
 	public String share(@RequestParam("musicId") Long musicId) {
 		MusicInfo musicInfo = musicService.getMusicById(musicId);
 		if (musicInfo == null) {
@@ -220,4 +217,36 @@ public class MusicController extends ControllerSupport {
 		musicService.addUserListenRecord(userListenRecord);
 		return ok();
 	}
+	
+	/**
+	 * 获取最新推荐音乐列表
+	 */
+	@RequestMapping("getRentRecommendList.do")
+	@ResponseBody
+	public String getRecentRecommendMusicList() {
+		return ok(musicService.getRecentRecommendMusicList());
+	}
+	
+	/**
+	 * 根据名称查询音乐
+	 */
+	@RequestMapping("searchMusic")
+	@ResponseBody
+	public String searchMusic(@RequestParam("likeName") String likeName) {
+		return ok(musicService.getMusicByName(likeName));
+	}
+	
+	/**
+	 * 根据标签查询音乐列表
+	 */
+	@RequestMapping("searchMusicListByTag")
+	@ResponseBody
+	public String searchTagMusic(@RequestParam("tagId") Long tagId, @RequestParam("page") Integer page, @RequestParam("size") Integer size) {
+		return ok(musicService.getMusicListByTag(tagId, page, size));
+	}
+	
 }
+
+
+
+

@@ -5,6 +5,7 @@ package com.micro.ss.web.support;
  */
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 
 import com.micro.ss.web.data.mapper.AlbumMapper;
 import com.micro.ss.web.data.mapper.MusicAlbumMapper;
@@ -52,4 +53,7 @@ public abstract class ServiceSupport extends LoggerSupport {
 	
 	@Autowired
 	protected MusicTagMapper musicTagMapper;
+	
+	@Value("${com.micro.ss.recommend.limit}")
+	protected Integer recommendLimit;
 }

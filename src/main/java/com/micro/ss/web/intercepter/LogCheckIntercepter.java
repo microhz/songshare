@@ -9,7 +9,7 @@ import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.micro.ss.web.annotations.UnLogCheck;
+import com.micro.ss.web.annotations.LogCheck;
 import com.micro.ss.web.enums.ErrorMsgEnum;
 import com.micro.ss.web.support.ControllerSupport;
 
@@ -26,7 +26,7 @@ public class LogCheckIntercepter extends ControllerSupport implements HandlerInt
 		boolean forbiden = false;
 		if (handler instanceof HandlerMethod) {
 			HandlerMethod handlerMethod = (HandlerMethod) handler;
-			if (handlerMethod.getMethodAnnotation(UnLogCheck.class) != null) {
+			if (handlerMethod.getMethodAnnotation(LogCheck.class) == null) {
 				return true;
 			} else {
 				if (curUser() == null) {
@@ -34,6 +34,7 @@ public class LogCheckIntercepter extends ControllerSupport implements HandlerInt
 				}
 			}
 		}
+		// 只拦截controller 请求
 		if (!request.getRequestURI().endsWith(".do")) return true;
 		if (forbiden) {
 			getMainLogger().error("reject forbiden request : " + request.getRequestURI());

@@ -27,4 +27,5 @@ public interface MusicCommentaryMapper {
     int updateByPrimaryKeySelective(MusicCommentary record);
 
     int updateByPrimaryKey(MusicCommentary record);
+    
 }

@@ -27,4 +27,6 @@ public interface MusicTagRelationMapper {
     int updateByPrimaryKeySelective(MusicTagRelation record);
 
     int updateByPrimaryKey(MusicTagRelation record);
+    
+    List<MusicTagRelation> limitSelectByExample(MusicTagRelationExample example);
 }

@@ -4,7 +4,9 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-public class MusicTagRelationExample {
+import com.micro.ss.web.support.PageSizeSupport;
+
+public class MusicTagRelationExample extends PageSizeSupport{
     protected String orderByClause;
 
     protected boolean distinct;

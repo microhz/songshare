@@ -1,10 +1,11 @@
 package com.micro.ss.web.service.impl;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 
 import com.micro.ss.web.data.model.Album;
@@ -278,4 +279,72 @@ public class MusicServiceImpl extends ServiceSupport implements MusicService {
 		return new ArrayList<Album>();
 	}
 
+	public List<MusicInfo> getRecentRecommendMusicList() {
+		MusicRecommendExample musicRecommendExample = new MusicRecommendExample();
+		musicRecommendExample.setOrderByClause("create_time DESC");
+		musicRecommendExample.setStart(0);
+		musicRecommendExample.setEnd(recommendLimit);
+		List<MusicRecommend> musicRecommendList = musicRecommendMapper.limitSelectByExample(musicRecommendExample);
+		if (musicRecommendList != null && musicRecommendList.size() > 0) {
+			final List<Long> musicIdList = new ArrayList<Long>();
+			for (MusicRecommend musicRecommend : musicRecommendList) {
+				if (musicRecommend.getMusicId() != null && !musicIdList.contains(musicRecommend.getMusicId())) {
+					musicIdList.add(musicRecommend.getId());
+				}
+			}
+			if (musicIdList.size() > 0) {
+				MusicInfoExample musicInfoExample = new MusicInfoExample();
+				musicInfoExample.or().andIdIn(musicIdList);
+				List<MusicInfo> musicInfoList = musicInfoMapper.selectByExample(musicInfoExample);
+				// 保证被推荐的顺序
+				Collections.sort(musicInfoList, new Comparator<MusicInfo>() {
+
+					public int compare(MusicInfo o1, MusicInfo o2) {
+						return musicIdList.lastIndexOf(o1.getId()) - musicIdList.lastIndexOf(o2.getId());
+					}
+					
+				});
+				return musicInfoList;
+			}
+		}
+		return null;
+	}
+
+	public List<MusicInfo> getMusicByName(String name) {
+		MusicInfoExample musicInfoExample = new MusicInfoExample();
+		musicInfoExample.or().andNameLike("%" + name + "%");
+		List<MusicInfo> musicInfoList = musicInfoMapper.selectByExample(musicInfoExample);
+		return musicInfoList;
+	}
+
+	public List<MusicInfo> getMusicListByTag(Long tagId, Integer page, Integer size) {
+		MusicTagRelationExample musicTagRelationExample = new MusicTagRelationExample();
+		musicTagRelationExample.or().andIdEqualTo(tagId);
+		musicTagRelationExample.setStart(page * size);
+		musicTagRelationExample.setEnd(size);
+		List<MusicTagRelation> musicTagRelationList = musicTagRelationMapper.selectByExample(musicTagRelationExample);
+		if (musicTagRelationList != null && musicTagRelationList.size() > 0) {
+			List<Long> musicIdList = new ArrayList<Long>();
+			for (MusicTagRelation musicTagRelation : musicTagRelationList) {
+				if (musicTagRelation.getMusicId() != null) {
+					musicIdList.add(musicTagRelation.getMusicId());
+				}
+			}
+			if (musicIdList.size() > 0) {
+				MusicInfoExample musicInfoExample = new MusicInfoExample();
+				musicInfoExample.or().andIdIn(musicIdList);
+				return musicInfoMapper.selectByExample(musicInfoExample);
+			}
+		}
+		return null;
+	}
+
 }
+
+
+
+
+
+
+
+

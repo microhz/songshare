@@ -55,4 +55,20 @@ public interface MusicService {
 	 * 音乐试听记录
 	 */
 	boolean addUserListenRecord(UserListenRecord userListenRecord);
+	
+	/**
+	 * 最新推荐n首音乐
+	 */
+	List<MusicInfo> getRecentRecommendMusicList();
+	
+	/**
+	 * 模糊查询音乐
+	 */
+	List<MusicInfo> getMusicByName(String name);
+	
+	/**
+	 * 标签查询音乐
+	 */
+	List<MusicInfo> getMusicListByTag(Long tagId, Integer page, Integer size);
 }
+

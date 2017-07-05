@@ -27,4 +27,6 @@ public interface MusicRecommendMapper {
     int updateByPrimaryKeySelective(MusicRecommend record);
 
     int updateByPrimaryKey(MusicRecommend record);
+    
+    List<MusicRecommend> limitSelectByExample(MusicRecommendExample example);
 }
