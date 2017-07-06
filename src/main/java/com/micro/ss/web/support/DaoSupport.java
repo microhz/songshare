@@ -9,7 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.micro.ss.web.data.mapper.UserCollectionMapper;
 import com.micro.ss.web.data.mapper.UserInfoMapper;
 
-public abstract class UserDaoSupport {
+public abstract class DaoSupport {
 
 	@Autowired
 	private UserInfoMapper userInfoMapper;
