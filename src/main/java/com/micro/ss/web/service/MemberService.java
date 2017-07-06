@@ -1,5 +1,8 @@
 package com.micro.ss.web.service;
 
+import java.util.List;
+
+import com.micro.ss.web.data.model.UserHomeCommentary;
 import com.micro.ss.web.enums.UserRelationEnum;
 import com.micro.ss.web.pojo.ServiceResult;
 
@@ -21,4 +24,9 @@ public interface MemberService {
 	 * 用户之间发送信息
 	 */
 	ServiceResult<Object> sendMsg(Long userId, Long targetUserId, String msg);
+	
+	/**
+	 * 获取留言列表
+	 */
+	ServiceResult<List<UserHomeCommentary>> getHomeCommentary(Long userId);
 }

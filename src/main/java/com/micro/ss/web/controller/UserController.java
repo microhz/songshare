@@ -139,4 +139,14 @@ public class UserController extends ControllerSupport {
 		return fail(ErrorMsgEnum.UPDATE_ERROR);
 	}
 	
+	/**
+	 *  查看留言板
+	 */
+	@RequestMapping("dashboard")
+	@ResponseBody
+	@LogCheck
+	public String getDashboard() {
+		
+	}
+	
 }

@@ -16,6 +16,7 @@ import com.micro.ss.web.data.mapper.MusicRecommendMapper;
 import com.micro.ss.web.data.mapper.MusicTagMapper;
 import com.micro.ss.web.data.mapper.MusicTagRelationMapper;
 import com.micro.ss.web.data.mapper.UserCollectionMapper;
+import com.micro.ss.web.data.mapper.UserHomeCommentaryMapper;
 import com.micro.ss.web.data.mapper.UserInfoMapper;
 import com.micro.ss.web.data.mapper.UserListenRecordMapper;
 import com.micro.ss.web.data.mapper.UserMusicScoreMapper;
@@ -61,6 +62,9 @@ public abstract class ServiceSupport extends LoggerSupport {
 
 	@Autowired
 	protected MessageMapper messageMapper;
+	
+	@Autowired
+	protected UserHomeCommentaryMapper userHomeCommentaryMapper;
 
 	@Value("${com.micro.ss.recommend.limit}")
 	protected Integer recommendLimit;

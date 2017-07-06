@@ -1,10 +1,13 @@
 package com.micro.ss.web.service.impl;
 
 import java.util.Date;
+import java.util.List;
 
 import org.apache.commons.lang3.StringUtils;
 
 import com.micro.ss.web.data.model.Message;
+import com.micro.ss.web.data.model.UserHomeCommentary;
+import com.micro.ss.web.data.model.UserHomeCommentaryExample;
 import com.micro.ss.web.data.model.UserRelation;
 import com.micro.ss.web.data.model.UserRelationExample;
 import com.micro.ss.web.enums.StatusEnum;
@@ -52,6 +55,17 @@ public class MemberServiceImpl extends ServiceSupport implements MemberService {
 			return ServiceResult.getSuccess(null);
 		}
 		return ServiceResult.getErrorResult("参数错误");
+	}
+
+	public ServiceResult<List<UserHomeCommentary>> getHomeCommentary(Long userId) {
+		UserHomeCommentaryExample userHomeCommentaryExample = new UserHomeCommentaryExample();
+		userHomeCommentaryExample.or().andUserIdEqualTo(userId);
+		userHomeCommentaryExample.setOrderByClause("create_time DESC");
+		List<UserHomeCommentary> userHomeCommentrayList = userHomeCommentaryMapper.selectByExample(userHomeCommentaryExample);
+		if (userHomeCommentrayList != null && userHomeCommentrayList.size() > 0) {
+			return ServiceResult.getSuccess(userHomeCommentrayList);
+		}
+		return ServiceResult.getSuccess(null);
 	}
 
 
