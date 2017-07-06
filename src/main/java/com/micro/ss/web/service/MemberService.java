@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.micro.ss.web.data.model.UserHomeCommentary;
 import com.micro.ss.web.enums.UserRelationEnum;
+import com.micro.ss.web.pojo.MessageModel;
 import com.micro.ss.web.pojo.ServiceResult;
 
 /**
@@ -29,4 +30,9 @@ public interface MemberService {
 	 * 获取留言列表
 	 */
 	ServiceResult<List<UserHomeCommentary>> getHomeCommentary(Long userId);
+	
+	/**
+	 * 获取消息列表
+	 */
+	ServiceResult<List<MessageModel>> getMessageList(Long userId);
 }

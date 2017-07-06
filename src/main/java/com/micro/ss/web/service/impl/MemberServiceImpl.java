@@ -1,17 +1,22 @@
 package com.micro.ss.web.service.impl;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 import org.apache.commons.lang3.StringUtils;
 
 import com.micro.ss.web.data.model.Message;
+import com.micro.ss.web.data.model.MessageExample;
 import com.micro.ss.web.data.model.UserHomeCommentary;
 import com.micro.ss.web.data.model.UserHomeCommentaryExample;
+import com.micro.ss.web.data.model.UserInfo;
+import com.micro.ss.web.data.model.UserInfoExample;
 import com.micro.ss.web.data.model.UserRelation;
 import com.micro.ss.web.data.model.UserRelationExample;
 import com.micro.ss.web.enums.StatusEnum;
 import com.micro.ss.web.enums.UserRelationEnum;
+import com.micro.ss.web.pojo.MessageModel;
 import com.micro.ss.web.pojo.ServiceResult;
 import com.micro.ss.web.service.MemberService;
 import com.micro.ss.web.support.ServiceSupport;
@@ -64,6 +69,39 @@ public class MemberServiceImpl extends ServiceSupport implements MemberService {
 		List<UserHomeCommentary> userHomeCommentrayList = userHomeCommentaryMapper.selectByExample(userHomeCommentaryExample);
 		if (userHomeCommentrayList != null && userHomeCommentrayList.size() > 0) {
 			return ServiceResult.getSuccess(userHomeCommentrayList);
+		}
+		return ServiceResult.getSuccess(null);
+	}
+
+	public ServiceResult<List<MessageModel>> getMessageList(Long userId) {
+		MessageExample messageExample = new MessageExample();
+		messageExample.or().andRecieveIdEqualTo(userId);
+		List<Message> messageList = messageMapper.selectByExample(messageExample);
+		if (messageList != null && messageList.size() > 0) {
+			List<MessageModel> messageModelList = new ArrayList<MessageModel>();
+			List<Long> userIdList = new ArrayList<Long>();
+			for (Message message : messageList) {
+				if (message.getSenderId() == null) {
+					getExceptionLogger().error("未知发送者,messageId -> " + message.getId());
+				} else {
+					MessageModel messageModel = new MessageModel();
+					messageModel.setMessage(message);
+					userIdList.add(message.getSenderId());
+				}
+			}
+			if (userIdList.size() > 0) {
+				UserInfoExample userInfoExample = new UserInfoExample();
+				userInfoExample.or().andIdIn(userIdList);
+				List<UserInfo> userInfoList = userInfoMapper.selectByExample(userInfoExample);
+				for (MessageModel messageModel : messageModelList) {
+					for (UserInfo userInfo : userInfoList) {
+						if (userInfo.getId().equals(messageModel.getMessage().getSenderId())) {
+							messageModel.setUser(userInfo);
+						}
+					}
+				}
+			}
+			return ServiceResult.getSuccess(messageModelList);
 		}
 		return ServiceResult.getSuccess(null);
 	}

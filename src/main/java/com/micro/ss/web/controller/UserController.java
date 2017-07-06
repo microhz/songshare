@@ -145,8 +145,8 @@ public class UserController extends ControllerSupport {
 	@RequestMapping("dashboard")
 	@ResponseBody
 	@LogCheck
-	public String getDashboard() {
-		
+	public String getDashboard(@RequestParam("userId") Long userId) {
+		return ok(memberService.getHomeCommentary(userId));
 	}
 	
 }

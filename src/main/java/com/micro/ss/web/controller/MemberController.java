@@ -46,4 +46,17 @@ public class MemberController extends ControllerSupport {
 		}
 		return fail(result.getMsg());
 	}
+	
+	/**
+	 * 获取其他用户发送的信息
+	 */
+	@RequestMapping("getMsgList")
+	@ResponseBody
+	@LogCheck
+	public String getMsgList(@RequestParam(value = "userId", required = false) Long userId) {
+		if (userId == null) {
+			userId = curUserId();
+		}
+		return ok(memberService.getMessageList(userId));
+	}
 }
