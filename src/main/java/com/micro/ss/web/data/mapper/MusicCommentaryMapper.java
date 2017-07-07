@@ -2,10 +2,12 @@ package com.micro.ss.web.data.mapper;
 
 import com.micro.ss.web.data.model.MusicCommentary;
 import com.micro.ss.web.data.model.MusicCommentaryExample;
+import com.micro.ss.web.support.PageSizeMapper;
+
 import java.util.List;
 import org.apache.ibatis.annotations.Param;
 
-public interface MusicCommentaryMapper {
+public interface MusicCommentaryMapper extends PageSizeMapper<MusicCommentaryExample, MusicCommentary>{
     int countByExample(MusicCommentaryExample example);
 
     int deleteByExample(MusicCommentaryExample example);

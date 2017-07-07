@@ -1,11 +1,13 @@
 package com.micro.ss.web.controller;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.micro.ss.web.annotations.LogCheck;
+import com.micro.ss.web.constants.AppConfig;
 import com.micro.ss.web.enums.UserRelationEnum;
 import com.micro.ss.web.pojo.ServiceResult;
 import com.micro.ss.web.support.ControllerSupport;
@@ -18,7 +20,7 @@ import com.micro.ss.web.support.ControllerSupport;
 @RestController
 @RequestMapping("member")
 public class MemberController extends ControllerSupport {
-
+	
 	@RequestMapping("follow")
 	@ResponseBody
 	@LogCheck
@@ -58,5 +60,14 @@ public class MemberController extends ControllerSupport {
 			userId = curUserId();
 		}
 		return ok(memberService.getMessageList(userId));
+	}
+	
+	/**
+	 * 获取最新的评论
+	 */
+	@RequestMapping("getCommentList")
+	@ResponseBody
+	public String getCommentaryList() {
+		return ok(memberService.getRecentCommentary(appConfig.getHotCommentaryLimit()));
 	}
 }

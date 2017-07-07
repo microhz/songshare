@@ -71,6 +71,7 @@
   <sql id="Base_Column_List" >
     id, target_id, commentary, user_id, status, create_time, type
   </sql>
+  
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.micro.ss.web.data.model.MusicCommentaryExample" >
     select
     <if test="distinct" >
@@ -83,6 +84,23 @@
     </if>
     <if test="orderByClause != null" >
       order by ${orderByClause}
+    </if>
+  </select>
+  <select id="limitSelect" resultMap="BaseResultMap" parameterType="com.micro.ss.web.data.model.MusicCommentaryExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from music_commentary
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+    <if test="start != null AND end != null">
+    	limit start,end
     </if>
   </select>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >

@@ -5,6 +5,7 @@ import java.util.List;
 import com.micro.ss.web.data.model.UserHomeCommentary;
 import com.micro.ss.web.enums.UserRelationEnum;
 import com.micro.ss.web.pojo.MessageModel;
+import com.micro.ss.web.pojo.MusicCommentaryModel;
 import com.micro.ss.web.pojo.ServiceResult;
 
 /**
@@ -35,4 +36,9 @@ public interface MemberService {
 	 * 获取消息列表
 	 */
 	ServiceResult<List<MessageModel>> getMessageList(Long userId);
+	
+	/**
+	 * 最新评论
+	 */
+	ServiceResult<List<MusicCommentaryModel>> getRecentCommentary(Integer limitCount);
 }

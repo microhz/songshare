@@ -8,6 +8,7 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.micro.ss.web.constants.AppConfig;
 import com.micro.ss.web.constants.UserConstants;
 import com.micro.ss.web.data.model.UserInfo;
 import com.micro.ss.web.service.FileService;
@@ -31,6 +32,9 @@ public abstract class ControllerSupport extends RestSupport {
 	
 	@Autowired
 	protected HttpSession httpSession;
+	
+	@Autowired
+	protected AppConfig appConfig;
 
 	protected UserInfo curUser() {
 		Object user = httpSession.getAttribute(UserConstants.CURRENT_USER_KEY);

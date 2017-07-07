@@ -8,6 +8,10 @@ import org.apache.commons.lang3.StringUtils;
 
 import com.micro.ss.web.data.model.Message;
 import com.micro.ss.web.data.model.MessageExample;
+import com.micro.ss.web.data.model.MusicCommentary;
+import com.micro.ss.web.data.model.MusicCommentaryExample;
+import com.micro.ss.web.data.model.MusicInfo;
+import com.micro.ss.web.data.model.MusicInfoExample;
 import com.micro.ss.web.data.model.UserHomeCommentary;
 import com.micro.ss.web.data.model.UserHomeCommentaryExample;
 import com.micro.ss.web.data.model.UserInfo;
@@ -17,6 +21,7 @@ import com.micro.ss.web.data.model.UserRelationExample;
 import com.micro.ss.web.enums.StatusEnum;
 import com.micro.ss.web.enums.UserRelationEnum;
 import com.micro.ss.web.pojo.MessageModel;
+import com.micro.ss.web.pojo.MusicCommentaryModel;
 import com.micro.ss.web.pojo.ServiceResult;
 import com.micro.ss.web.service.MemberService;
 import com.micro.ss.web.support.ServiceSupport;
@@ -104,6 +109,46 @@ public class MemberServiceImpl extends ServiceSupport implements MemberService {
 			return ServiceResult.getSuccess(messageModelList);
 		}
 		return ServiceResult.getSuccess(null);
+	}
+
+	public ServiceResult<List<MusicCommentaryModel>> getRecentCommentary(Integer limitCount) {
+		if (limitCount == null) {
+			return ServiceResult.getSuccess();
+		}
+		MusicCommentaryExample musicCommentaryExample = new MusicCommentaryExample();
+		musicCommentaryExample.setStart(0);
+		musicCommentaryExample.setEnd(limitCount);
+		List<MusicCommentary> musicCommentarieList = musicCommentaryMapper.limitSelect(musicCommentaryExample);
+		if (musicCommentarieList != null && musicCommentarieList.size() > 0) {
+			List<MusicCommentaryModel> musicCommentaryModelList = new ArrayList<MusicCommentaryModel>();
+			List<Long> musicIdList = new ArrayList<Long>();
+			for (MusicCommentary musicCommentary : musicCommentarieList) {
+				if (musicCommentary.getTargetId() != null) {
+					musicCommentarieList.add(musicCommentary);
+					musicIdList.add(musicCommentary.getTargetId());// 获取id批量查询
+				}
+			}
+			MusicInfoExample musicInfoExample = new MusicInfoExample();
+			musicInfoExample.or().andIdIn(musicIdList);
+			List<MusicInfo> musicInfoList = musicInfoMapper.selectByExample(musicInfoExample);
+			for (MusicCommentaryModel musicCommentaryModel : musicCommentaryModelList) {
+				musicCommentaryModel.setMusicInfo(getMusicInfoById(musicInfoList, musicCommentaryModel.getMusicCommentary().getTargetId()));
+			}
+			return ServiceResult.getSuccess(musicCommentaryModelList);
+		}
+		return null;
+	}
+	
+	private MusicInfo getMusicInfoById(List<MusicInfo> musicInfoList, Long musicId) {
+		if (musicInfoList == null || musicInfoList.size() <= 0 || musicId == null) {
+			return null;
+		}
+		for (MusicInfo musicInfo : musicInfoList) {
+			if (musicInfo.equals(musicId)) {
+				return musicInfo;
+			}
+		}
+		return null;
 	}
 
 

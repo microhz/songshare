@@ -21,6 +21,10 @@ public class ServiceResult<T> {
 		return result;
 	}
 	
+	public static <T> ServiceResult<T> getSuccess() {
+		return getSuccess(null);
+	}
+	
 	public static <T> ServiceResult<T> getErrorResult(String msg) {
 		ServiceResult<T> result = new ServiceResult<T>();
 		result.setSuccess(false);
