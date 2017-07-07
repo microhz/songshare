@@ -1,14 +1,16 @@
 package com.micro.ss.web.controller;
 
-import org.springframework.beans.factory.annotation.Value;
+import java.util.List;
+
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.micro.ss.web.annotations.LogCheck;
-import com.micro.ss.web.constants.AppConfig;
 import com.micro.ss.web.enums.UserRelationEnum;
+import com.micro.ss.web.pojo.MessageModel;
+import com.micro.ss.web.pojo.MusicCommentaryModel;
 import com.micro.ss.web.pojo.ServiceResult;
 import com.micro.ss.web.support.ControllerSupport;
 
@@ -59,7 +61,11 @@ public class MemberController extends ControllerSupport {
 		if (userId == null) {
 			userId = curUserId();
 		}
-		return ok(memberService.getMessageList(userId));
+		ServiceResult<List<MessageModel>> result = memberService.getMessageList(userId);
+		if (result.isSuccess()) {
+			return ok(result.getData());
+		}
+		return fail(result.getMsg());
 	}
 	
 	/**
@@ -68,6 +74,10 @@ public class MemberController extends ControllerSupport {
 	@RequestMapping("getCommentList")
 	@ResponseBody
 	public String getCommentaryList() {
-		return ok(memberService.getRecentCommentary(appConfig.getHotCommentaryLimit()));
+		ServiceResult<List<MusicCommentaryModel>> result = memberService.getRecentCommentary(appConfig.getHotCommentaryLimit());
+		if (result.isSuccess()) {
+			return ok(result.getData());
+		}
+		return fail(result.getMsg());
 	}
 }

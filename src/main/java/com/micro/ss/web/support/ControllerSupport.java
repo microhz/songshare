@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.micro.ss.web.constants.AppConfig;
 import com.micro.ss.web.constants.UserConstants;
 import com.micro.ss.web.data.model.UserInfo;
+import com.micro.ss.web.service.AlbumService;
 import com.micro.ss.web.service.FileService;
 import com.micro.ss.web.service.MemberService;
 import com.micro.ss.web.service.MusicService;
@@ -29,6 +30,9 @@ public abstract class ControllerSupport extends RestSupport {
 	
 	@Autowired
 	protected MemberService memberService;
+	
+	@Autowired
+	protected AlbumService albumService;
 	
 	@Autowired
 	protected HttpSession httpSession;
