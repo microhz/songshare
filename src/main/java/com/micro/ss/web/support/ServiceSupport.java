@@ -66,7 +66,7 @@ public abstract class ServiceSupport extends LoggerSupport {
 	@Autowired
 	protected UserHomeCommentaryMapper userHomeCommentaryMapper;
 
-	@Value("${com.micro.ss.recommend.limit}")
-	protected Integer recommendLimit;
+//	@Value("${com.micro.ss.recommend.limit}")
+	protected Integer recommendLimit = 20;
 
 }

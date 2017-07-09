@@ -17,6 +17,8 @@ public interface AlbumMapper {
     int insertSelective(Album record);
 
     List<Album> selectByExample(AlbumExample example);
+    
+    List<Album> limitByExample(AlbumExample example);
 
     Album selectByPrimaryKey(Long id);
 

@@ -19,5 +19,6 @@ public class ErrorMsgEnum {
 	
 	// ------
 	public static final String MUSIC_NOT_EXITS = "音乐不存在";
+	public static final String ALBUM_NOT_EXITS = "专辑不存在";
 
 }

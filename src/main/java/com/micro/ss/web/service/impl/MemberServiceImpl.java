@@ -151,5 +151,28 @@ public class MemberServiceImpl extends ServiceSupport implements MemberService {
 		return null;
 	}
 
+	public ServiceResult<List<UserInfo>> getFans(Long userId) {
+		if (userId != null) {
+			UserRelationExample userRelationExample = new UserRelationExample();
+			userRelationExample.or().andTargetUserIdEqualTo(userId).andStatusEqualTo(UserRelationEnum.FOLLOW.getCode());
+			List<UserRelation> userRelationList = userRelationMapper.selectByExample(userRelationExample);
+			if (userRelationList != null && userRelationList.size() > 0) {
+				List<Long> userIdList = new ArrayList<Long>();
+				for (UserRelation userRelation : userRelationList) {
+					if (userRelation.getUserId() != null) {
+						userIdList.add(userRelation.getUserId());
+					}
+				}
+				if (userIdList.size() > 0) {
+					UserInfoExample userInfoExample = new UserInfoExample();
+					userInfoExample.or().andIdIn(userIdList);
+					List<UserInfo> userInfoList = userInfoMapper.selectByExample(userInfoExample);
+					return ServiceResult.getSuccess(userInfoList);
+				}
+			}
+		}
+		return null;
+	}
+
 
 }

@@ -3,6 +3,7 @@ package com.micro.ss.web.service;
 import java.util.List;
 
 import com.micro.ss.web.data.model.UserHomeCommentary;
+import com.micro.ss.web.data.model.UserInfo;
 import com.micro.ss.web.enums.UserRelationEnum;
 import com.micro.ss.web.pojo.MessageModel;
 import com.micro.ss.web.pojo.MusicCommentaryModel;
@@ -41,4 +42,9 @@ public interface MemberService {
 	 * 最新评论
 	 */
 	ServiceResult<List<MusicCommentaryModel>> getRecentCommentary(Integer limitCount);
+	
+	/**
+	 * 获取粉丝
+	 */
+	ServiceResult<List<UserInfo>> getFans(Long userId);
 }

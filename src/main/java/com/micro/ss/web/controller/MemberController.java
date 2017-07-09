@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.micro.ss.web.annotations.LogCheck;
+import com.micro.ss.web.data.model.UserInfo;
 import com.micro.ss.web.enums.UserRelationEnum;
 import com.micro.ss.web.pojo.MessageModel;
 import com.micro.ss.web.pojo.MusicCommentaryModel;
@@ -80,4 +81,19 @@ public class MemberController extends ControllerSupport {
 		}
 		return fail(result.getMsg());
 	}
+	
+	/**
+	 * 获取我的好友
+	 */
+	@RequestMapping("getFans")
+	@ResponseBody
+	@LogCheck
+	public String getFollower() {
+		ServiceResult<List<UserInfo>> result = memberService.getFans(curUserId());
+		if (result.isSuccess()) {
+			return ok(result.getData());
+		}
+		return fail(result.getMsg());
+	}
 }
+

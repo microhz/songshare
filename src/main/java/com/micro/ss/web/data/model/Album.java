@@ -2,6 +2,8 @@ package com.micro.ss.web.data.model;
 
 import java.util.Date;
 
+import com.micro.ss.web.support.PageSizeSupport;
+
 public class Album {
     private Long id;
 
