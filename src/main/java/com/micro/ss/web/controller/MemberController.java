@@ -24,7 +24,7 @@ import com.micro.ss.web.support.ControllerSupport;
 @RequestMapping("member")
 public class MemberController extends ControllerSupport {
 	
-	@RequestMapping("follow")
+	@RequestMapping("follow.do")
 	@ResponseBody
 	@LogCheck
 	public String follow(@RequestParam("targetUserId") Long targetUserId) {
@@ -38,7 +38,7 @@ public class MemberController extends ControllerSupport {
 		return fail(result.getMsg());
 	}
 	
-	@RequestMapping("sendMsg")
+	@RequestMapping("sendMsg.do")
 	@ResponseBody
 	@LogCheck
 	public String sendMsg(@RequestParam("msg") String msg, @RequestParam("targetUserId") Long targetUserId) {
@@ -72,7 +72,7 @@ public class MemberController extends ControllerSupport {
 	/**
 	 * 获取最新的评论
 	 */
-	@RequestMapping("getCommentList")
+	@RequestMapping("getCommentList.do")
 	@ResponseBody
 	public String getCommentaryList() {
 		ServiceResult<List<MusicCommentaryModel>> result = memberService.getRecentCommentary(appConfig.getHotCommentaryLimit());
@@ -85,7 +85,7 @@ public class MemberController extends ControllerSupport {
 	/**
 	 * 获取我的好友
 	 */
-	@RequestMapping("getFans")
+	@RequestMapping("getFans.do")
 	@ResponseBody
 	@LogCheck
 	public String getFollower() {

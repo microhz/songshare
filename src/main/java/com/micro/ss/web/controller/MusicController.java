@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.micro.ss.web.annotations.LogCheck;
 import com.micro.ss.web.data.model.MusicCommentary;
 import com.micro.ss.web.data.model.MusicInfo;
 import com.micro.ss.web.data.model.UserCollection;
@@ -169,10 +170,11 @@ public class MusicController extends ControllerSupport {
 	 */
 	@RequestMapping("comment.do")
 	@ResponseBody
+	@LogCheck
 	public String comment(@RequestParam("musicId") Long musicId,@RequestParam("commentary") String commentary) {
-		if (curUser() == null) {
+		/*if (curUser() == null) {
 			return fail(ErrorMsgEnum.NOT_LOGIN);
-		}
+		}*/
 		if (StringUtils.isBlank(commentary)) {
 			return fail(ErrorMsgEnum.PARAM_ERROR);
 		}
@@ -189,10 +191,11 @@ public class MusicController extends ControllerSupport {
 	 */
 	@RequestMapping("upload.do")
 	@ResponseBody
+	@LogCheck
 	public String upload(@RequestParam("file") MultipartFile multipartFile) {
-		if (curUser() == null) {
+		/*if (curUser() == null) {
 			return fail(ErrorMsgEnum.NOT_LOGIN);
-		}
+		}*/
 		try {
 			InputStream inputStream = multipartFile.getInputStream();
 			String url = fileService.upload(inputStream, FileTypeEnum.MUSIC);
@@ -206,7 +209,7 @@ public class MusicController extends ControllerSupport {
 	/**
 	 * 音乐播放记录
 	 */
-	@RequestMapping("record")
+	@RequestMapping("record.do")
 	@ResponseBody
 	public String record(@RequestParam("musicId") Long musicId) {
 		UserListenRecord userListenRecord = new UserListenRecord();
@@ -230,7 +233,7 @@ public class MusicController extends ControllerSupport {
 	/**
 	 * 根据名称查询音乐
 	 */
-	@RequestMapping("searchMusic")
+	@RequestMapping("searchMusic.do")
 	@ResponseBody
 	public String searchMusic(@RequestParam("likeName") String likeName) {
 		return ok(musicService.getMusicByName(likeName));
@@ -239,7 +242,7 @@ public class MusicController extends ControllerSupport {
 	/**
 	 * 根据标签查询音乐列表
 	 */
-	@RequestMapping("searchMusicListByTag")
+	@RequestMapping("searchMusicListByTag.do")
 	@ResponseBody
 	public String searchTagMusic(@RequestParam("tagId") Long tagId, @RequestParam(value = "page", defaultValue = "0") Integer page, @RequestParam(value = "size", defaultValue = "20") Integer size) {
 		return ok(musicService.getMusicListByTag(tagId, page, size));
@@ -248,7 +251,7 @@ public class MusicController extends ControllerSupport {
 	/**
 	 * 获取某个用户的推荐列表，分页
 	 */
-	@RequestMapping("searchRecommend")
+	@RequestMapping("searchRecommend.do")
 	@ResponseBody
 	public String searchRecoomend(@RequestParam("userId") Long userId,@RequestParam(value = "page", required = false) Integer page,@RequestParam(value = "size", required = false) Integer size) {
 		return ok(musicService.getRecommendMusicList(userId, page, size));
@@ -257,7 +260,7 @@ public class MusicController extends ControllerSupport {
 	/**
 	 * 查看某个用户分享（上传）的音乐
 	 */
-	@RequestMapping("searchList")
+	@RequestMapping("searchList.do")
 	@ResponseBody
 	public String searchList(@RequestParam("userId") Long userId, @RequestParam(value = "page", required = false) Integer page, @RequestParam(value = "size", required = false) Integer size) {
 		if (userId == null) {

@@ -27,7 +27,7 @@ import com.micro.ss.web.support.ControllerSupport;
 @RestController
 public class AlbumController extends ControllerSupport {
 
-	@RequestMapping("create")
+	@RequestMapping("create.do")
 	@ResponseBody
 	@LogCheck
 	public String create(@RequestParam("albumName") String albumName,
@@ -36,6 +36,7 @@ public class AlbumController extends ControllerSupport {
 		album.setAlbumName(albumName);
 		album.setCreateTime(new Date());
 		album.setIcoImage(icoImage);
+		album.setUserId(curUserId());
 		album.setStatus(StatusEnum.NORMAL.getStatus());
 		ServiceResult<Object> result = albumService.insertAlbum(album);
 		if (result.isSuccess()) {
@@ -44,7 +45,7 @@ public class AlbumController extends ControllerSupport {
 		return fail(result.getMsg());
 	}
 	
-	@RequestMapping("addMusic")
+	@RequestMapping("addMusic.do")
 	@ResponseBody
 	@LogCheck
 	public String addMusicToAlbum(@RequestParam("musicId") Long musicId,
@@ -62,7 +63,7 @@ public class AlbumController extends ControllerSupport {
 		return fail(result.getMsg());
 	}
 	
-	@RequestMapping("delAlbum")
+	@RequestMapping("delAlbum.do")
 	@ResponseBody
 	@LogCheck
 	public String delAblum(@RequestParam("albumId") Long albumId) {
@@ -75,19 +76,19 @@ public class AlbumController extends ControllerSupport {
 		return fail();
 	}
 	
-	@RequestMapping("getAblumDetail")
+	@RequestMapping("getAblumDetail.do")
 	@ResponseBody
 	public String getDetail(@RequestParam("albumId") Long albumId) {
-		ServiceResult<List<AlbumDetail>> result = albumService.getAlbumDetail(albumId);
+		ServiceResult<AlbumDetail> result = albumService.getAlbumDetail(albumId);
 		if (result.isSuccess()) {
 			return ok(result.getData());
 		}
 		return fail();
 	}
 	
-	@RequestMapping("search")
+	@RequestMapping("search.do")
 	@ResponseBody
 	public String searchAlbum() {
-		
+		return null;
 	}
 }

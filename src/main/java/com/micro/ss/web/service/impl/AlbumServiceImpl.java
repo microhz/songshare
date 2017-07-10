@@ -3,6 +3,8 @@ package com.micro.ss.web.service.impl;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.stereotype.Service;
+
 import com.micro.ss.web.data.model.Album;
 import com.micro.ss.web.data.model.AlbumExample;
 import com.micro.ss.web.data.model.MusicAlbum;
@@ -20,6 +22,7 @@ import com.micro.ss.web.support.ServiceSupport;
  * @date 2017年7月7日
  * @description : 
  */
+@Service
 public class AlbumServiceImpl extends ServiceSupport implements AlbumService {
 
 	public ServiceResult<Object> insertAlbum(Album album) {

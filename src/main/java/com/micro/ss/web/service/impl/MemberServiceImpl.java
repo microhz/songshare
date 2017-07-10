@@ -5,6 +5,7 @@ import java.util.Date;
 import java.util.List;
 
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.stereotype.Service;
 
 import com.micro.ss.web.data.model.Message;
 import com.micro.ss.web.data.model.MessageExample;
@@ -32,6 +33,7 @@ import com.micro.ss.web.support.ServiceSupport;
  * @date 2017年7月5日
  * @description : 
  */
+@Service
 public class MemberServiceImpl extends ServiceSupport implements MemberService {
 
 	public ServiceResult<Object> addRelation(Long userId, Long targetUserId, UserRelationEnum userRelationEnum) {

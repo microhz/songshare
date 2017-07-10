@@ -83,7 +83,7 @@
       order by ${orderByClause}
     </if>
   </select>
-  <select id="selectByExapmleByPageSize" resultMap="BaseResultMap" parameterType="com.micro.ss.web.data.model.MusicRecommendExample" >
+  <select id="limitSelectByExample" resultMap="BaseResultMap" parameterType="com.micro.ss.web.data.model.MusicRecommendExample" >
     select
     <if test="distinct" >
       distinct
@@ -96,8 +96,8 @@
     <if test="orderByClause != null" >
       order by ${orderByClause}
     </if>
-    <if test="start != null or end != null">
-    	limit start,end
+    <if test="start != null and end != null">
+    	limit ${start},${end}
     </if>
   </select>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >

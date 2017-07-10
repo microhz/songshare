@@ -142,7 +142,7 @@ public class UserController extends ControllerSupport {
 	/**
 	 *  查看留言板
 	 */
-	@RequestMapping("dashboard")
+	@RequestMapping("dashboard.do")
 	@ResponseBody
 	@LogCheck
 	public String getDashboard(@RequestParam("userId") Long userId) {
