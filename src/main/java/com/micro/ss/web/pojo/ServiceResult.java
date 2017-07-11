@@ -14,6 +14,10 @@ public class ServiceResult<T> {
 		return isSuccess;
 	}
 	
+	public boolean isFalse() {
+		return !isSuccess;
+	}
+	
 	public static <T> ServiceResult<T> getSuccess(T data) {
 		ServiceResult<T> result = new ServiceResult<T>();
 		result.setSuccess(true);

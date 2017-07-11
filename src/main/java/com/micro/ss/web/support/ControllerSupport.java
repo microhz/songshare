@@ -13,6 +13,7 @@ import com.micro.ss.web.constants.UserConstants;
 import com.micro.ss.web.data.model.UserInfo;
 import com.micro.ss.web.service.AlbumService;
 import com.micro.ss.web.service.FileService;
+import com.micro.ss.web.service.GroupService;
 import com.micro.ss.web.service.MemberService;
 import com.micro.ss.web.service.MusicService;
 import com.micro.ss.web.service.UserService;
@@ -36,6 +37,9 @@ public abstract class ControllerSupport extends RestSupport {
 	
 	@Autowired
 	protected HttpSession httpSession;
+	
+	@Autowired
+	protected GroupService groupService;
 	
 	@Autowired
 	protected AppConfig appConfig;

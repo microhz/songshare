@@ -15,6 +15,7 @@ import com.micro.ss.web.annotations.LogCheck;
 import com.micro.ss.web.constants.UserConstants;
 import com.micro.ss.web.data.model.UserInfo;
 import com.micro.ss.web.enums.ErrorMsgEnum;
+import com.micro.ss.web.enums.StatusEnum;
 import com.micro.ss.web.support.ControllerSupport;
 import com.micro.ss.web.utils.MD5Utils;
 
@@ -32,7 +33,6 @@ public class UserController extends ControllerSupport {
 	 */
 	@RequestMapping("register.do")
 	@ResponseBody
-	@LogCheck
 	public String reg(@RequestParam("name") String name,
 			@RequestParam(value = "provinceId", required = false) Integer provinceId,
 			@RequestParam(value = "age", required = false) Integer age,
@@ -58,6 +58,7 @@ public class UserController extends ControllerSupport {
 		userInfo.setQq(qq);
 		userInfo.setPageHome(pageHome);
 		userInfo.setRegisterTime(new Date());
+		userInfo.setStatus(StatusEnum.NORMAL.getStatus());
 		if (userService.registerUser(userInfo)) {
 			return ok();
 		}
