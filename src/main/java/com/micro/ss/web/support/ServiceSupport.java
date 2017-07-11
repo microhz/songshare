@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Value;
 
 import com.micro.ss.web.data.mapper.AlbumMapper;
 import com.micro.ss.web.data.mapper.GroupMapper;
+import com.micro.ss.web.data.mapper.LogMapper;
 import com.micro.ss.web.data.mapper.MessageMapper;
 import com.micro.ss.web.data.mapper.MusicAlbumMapper;
 import com.micro.ss.web.data.mapper.MusicCommentaryMapper;
@@ -69,6 +70,9 @@ public abstract class ServiceSupport extends LoggerSupport {
 	
 	@Autowired
 	protected GroupMapper groupMapper;
+	
+	@Autowired
+	protected LogMapper logMapper;
 
 //	@Value("${com.micro.ss.recommend.limit}")
 	protected Integer recommendLimit = 20;
