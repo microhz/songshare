@@ -8,7 +8,6 @@ class Home extends Component {
       return (
         <div className="home">
           <Header/>
-          <Button type="primary">Busssstton</Button>
         </div>
       );
     }

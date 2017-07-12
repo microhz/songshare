@@ -7,6 +7,7 @@ import {
 
 import Home from './Home';
 import routes from './routes.js';
+import '../src/common/base.less';
 
 const getComponent = (text)=>{
   switch(text){
