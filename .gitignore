@@ -1,0 +1,21 @@
+# See https://help.github.com/ignore-files/ for more about ignoring files.
+
+# dependencies
+/src/main/webapp/fontend/node_modules
+/src/main/webapp/fontend/.vscode
+# testing
+/src/main/webapp/fontend/coverage
+
+# production
+/src/main/webapp/fontend/build
+
+# misc
+.DS_Store
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+/src/main/webapp/fontend/npm-debug.log*
+/src/main/webapp/fontend/yarn-debug.log*
+/src/main/webapp/fontend/yarn-error.log*
