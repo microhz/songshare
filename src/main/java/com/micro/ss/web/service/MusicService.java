@@ -80,5 +80,10 @@ public interface MusicService {
 	 * 分页查看用户分享（上传）的音乐列表
 	 */
 	List<MusicInfo> getShareMusicList(Long userId, Integer page, Integer size);
+	
+	/**
+	 * 分页获取最新上传音乐
+	 */
+	List<MusicInfo> searchRecentUploadMusic(Integer page, Integer size);
 }
 

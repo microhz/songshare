@@ -269,6 +269,16 @@ public class MusicController extends ControllerSupport {
 		return ok(musicService.getShareMusicList(userId, page, size));
 	}
 	
+	/**
+	 * 获取最新上传音乐
+	 */
+	@RequestMapping("getRecentUpload.do")
+	@ResponseBody
+	public Object getRecentUpload(@RequestParam(value = "page", defaultValue = "0") Integer page,
+			@RequestParam(value = "size", defaultValue = "20") Integer size) {
+		return ok(musicService.searchRecentUploadMusic(page, size));
+	}
+	
 }
 
 

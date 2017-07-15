@@ -377,6 +377,13 @@ public class MusicServiceImpl extends ServiceSupport implements MusicService {
 		return musicInfoMapper.limitSelectByExample(musicInfoExample);
 	}
 
+	public List<MusicInfo> searchRecentUploadMusic(Integer page, Integer size) {
+		MusicInfoExample musicInfoExample = new MusicInfoExample();
+		musicInfoExample.setStart(page * size);
+		musicInfoExample.setEnd(size);
+		return musicInfoMapper.limitSelectByExample(musicInfoExample);
+	}
+
 }
 
 

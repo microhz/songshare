@@ -25,7 +25,8 @@ public class LoginFilter extends DelegatingFilterProxy {
 	@Override
 	public void doFilter(ServletRequest request, ServletResponse response, FilterChain filterChain)
 			throws ServletException, IOException {
-		if (request instanceof HttpServletRequest) {
+		System.out.println("---------------------do login filer------------------");
+		/*if (request instanceof HttpServletRequest) {
 			HttpServletRequest httpServletRequest = (HttpServletRequest) request;
 			String url = httpServletRequest.getRequestURI();
 			if (checkLogin(url)) {
@@ -33,7 +34,7 @@ public class LoginFilter extends DelegatingFilterProxy {
 					((HttpServletResponse) response).sendRedirect("/ss/pages/index.html");
 				}
 			}
-		}
+		}*/
 		filterChain.doFilter(request, response);
 	}
 

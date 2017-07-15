@@ -3,77 +3,64 @@
 
 <head>
     <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <!-- 上述3个meta标签*必须*放在最前面，任何其他内容都*必须*跟随其后！ -->
-    <meta name="description" content="">
-    <meta name="author" content="">
-
-    <!-- CSS
-		================================================== -->
-    <!-- Fontawesome Icon font -->
-    <link rel="stylesheet" href="css/font-awesome.min.css">
-    <!-- bootstrap.min css -->
-    <link rel="stylesheet" href="css/bootstrap.min.css">
-    <!-- bootstrap css -->
-    <link rel="stylesheet" href="css/bootstrap.css">
-    <!-- Animate.css -->
-    <link rel="stylesheet" href="css/animate.css">
-    <!-- Owl Carousel -->
-    <link rel="stylesheet" href="css/owl.carousel.css">
-    <!-- Main Stylesheet -->
-    <link rel="stylesheet" href="css/main.css">
-    <!-- Media Queries -->
-    <link rel="stylesheet" href="css/responsive.css">
-
-    <title>欢迎</title>
-
-    <!-- Bootstrap core CSS -->
-    <link href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
-    <!-- custome -->
-    <link rel="stylesheet" href="css/custom/home.css">
-
+    <title>Songshare首页</title>
+    <link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://cdn.bootcss.com/jquery/2.1.1/jquery.min.js"></script>
+    <script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 </head>
 
 <body>
-    <div class="container">
-        <div class="masthead">
-            <h3 class="muted">songshare</h3>
-            <div class="navbar">
-                <div class="navbar-inner">
-                    <div class="container">
-                        <ul class="nav">
-                            <li class="active"><a href="#">首页</a></li>
-                            <li><a href="#">小组</a></li>
-                            <li><a href="#">日志</a></li>
-                            <li><a href="#">专辑</a></li>
-                            <li><a href="#">会员</a></li>
-                            <li><a href="#">主页</a></li>
-                        </ul>
-                    </div>
-                </div>
+
+    <nav class="navbar navbar-default" role="navigation">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <a class="navbar-brand" href="#">首页</a>
             </div>
-            <!-- /.navbar -->
+            <div>
+                <ul class="nav navbar-nav">
+                    <li class="active"><a href="#">音乐列表</a></li>
+                    <li><a href="#">日志</a></li>
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+					我的信息
+					<b class="caret"></b>
+				</a>
+                        <ul class="dropdown-menu">
+                            <li><a href="#">我的主页</a></li>
+                            <li><a href="#">短消息</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
         </div>
-    </div>
+    </nav>
+
     <div class="container">
-    <ul class="list-group">
-        <a href="#"><li class="list-group-item">免费域名注册</span></li></a>
-    </ul>
+        <ul class="list-group" id="musicList">
+        </ul>
     </div>
-  <div class="jumbotron">
-      <div class="container">
-        <h2>店面装修中...</h2>
-        <p><a class="btn btn-primary btn-lg" href="https://github.com/microhz" role="button">点击跳转到作者Github</a><i class="icon-music"></i></p>
-      </div>
-    </div>
-    <!-- copyright -->
-    <div class="copyright text-center">
-        <p><a target="_blank" href="http://sc.chinaz.com/moban/">micro rights reserved. 2017</a></p>
-    </div>
-    <!-- /copyright -->
-     <script src="js/jquery-1.11.0.min.js"></script>
-    <script src="js/ss/home.js"></script>
+
+    <script type="text/javascript" src="js/jquery-1.11.0.min.js"></script>
+    <script  type="text/javascript">
+        $.ajax({
+        url : "/ss/music/getRecentUpload.do",
+        type : "POST",
+        dataType : "json",
+        success: function(data) {
+            if (data.code == 0) {
+                var list = data.data;
+                for (var i in list) {
+                    $("#musicList").append("<li class='list-group-item' ><a href=" + list[i].fileUrl + ">" + list[i].name + "</a></li>");
+                }
+            } else {
+                alert(data.msg);
+            }
+        },
+        error : function() {
+            alert("系统异常");
+        }
+    })
+    </script>
 </body>
 
 </html>
