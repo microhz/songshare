@@ -381,6 +381,7 @@ public class MusicServiceImpl extends ServiceSupport implements MusicService {
 		MusicInfoExample musicInfoExample = new MusicInfoExample();
 		musicInfoExample.setStart(page * size);
 		musicInfoExample.setEnd(size);
+		musicInfoExample.setOrderByClause("id DESC");
 		return musicInfoMapper.limitSelectByExample(musicInfoExample);
 	}
 

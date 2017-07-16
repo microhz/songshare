@@ -65,15 +65,12 @@ public class MusicController extends ControllerSupport {
 			@RequestParam("comment") String comment,
 			@RequestParam("fileUrl") String fileUrl,
 			@RequestParam(value = "lyrics", required = false) String lyrics) {
-		if (curUser() == null) {
-			return fail(ErrorMsgEnum.NOT_LOGIN);
-		}
 		Long lyricsId = null;
 		if (StringUtils.isNoneBlank(lyrics)) {
 			lyricsId = musicService.addLyrics(lyrics);
 		}
 		MusicInfo musicInfo = new MusicInfo();
-		musicInfo.setUserId(curUserId());
+		musicInfo.setUserId(curUserId() != null ? curUserId() : -1);
 		musicInfo.setCreateTime(new Date());
 		musicInfo.setStatus(MusicStatusEnum.NORMAL.getCode());
 		musicInfo.setName(name);
