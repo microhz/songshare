@@ -1,10 +1,7 @@
 package com.micro.ss.web.controller;
 
-import java.util.List;
-
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.micro.ss.web.annotations.LogCheck;
@@ -23,7 +20,6 @@ import com.micro.ss.web.support.ControllerSupport;
 public class LogController extends ControllerSupport {
 
 	@RequestMapping("addLog")
-	@ResponseBody
 	@LogCheck
 	public String addLog(@RequestParam("content") String content,
 			@RequestParam("title") String title) {
@@ -36,7 +32,6 @@ public class LogController extends ControllerSupport {
 	 * 日志删除
 	 */
 	@RequestMapping("delLog")
-	@ResponseBody
 	@LogCheck
 	public String delLog(@RequestParam("logId") Long logId) {
 		ServiceResult<Object> result = logService.delLog(logId);
@@ -50,7 +45,6 @@ public class LogController extends ControllerSupport {
 	 * 重新编辑日志
 	 */
 	@RequestMapping("editLog")
-	@ResponseBody
 	@LogCheck
 	public String editLog(@RequestParam("title") String title,
 			@RequestParam("id") Long id,

@@ -8,7 +8,6 @@ import javax.servlet.http.HttpSession;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.micro.ss.web.annotations.LogCheck;
@@ -32,7 +31,6 @@ public class UserController extends ControllerSupport {
 	 * @return
 	 */
 	@RequestMapping("register.do")
-	@ResponseBody
 	public String reg(@RequestParam("name") String name,
 			@RequestParam(value = "provinceId", required = false) Integer provinceId,
 			@RequestParam(value = "age", required = false) Integer age,
@@ -69,7 +67,6 @@ public class UserController extends ControllerSupport {
 	 * 用户登录
 	 */
 	@RequestMapping("login.do")
-	@ResponseBody
 	public String login(@RequestParam("username") String userNameOrEmail,
 			@RequestParam("password") String password, HttpSession httpSession){
 		UserInfo userInfo = new UserInfo();
@@ -91,7 +88,6 @@ public class UserController extends ControllerSupport {
 	 * 用户登出
 	 */
 	@RequestMapping("logout.do")
-	@ResponseBody
 	public String logout() {
 		if (curUser() == null) {
 			return ok();
@@ -104,7 +100,6 @@ public class UserController extends ControllerSupport {
 	 * 用户信息的完善更新
 	 */
 	@RequestMapping("update.do")
-	@ResponseBody
 	public String update(@RequestParam(value = "name", required = false) String name,
 			@RequestParam(value = "provinceId", required = false) Integer provinceId,
 			@RequestParam(value = "age", required = false) Integer age,
@@ -143,7 +138,6 @@ public class UserController extends ControllerSupport {
 	 *  查看留言板
 	 */
 	@RequestMapping("dashboard.do")
-	@ResponseBody
 	@LogCheck
 	public String getDashboard(@RequestParam("userId") Long userId) {
 		return ok(memberService.getHomeCommentary(userId));

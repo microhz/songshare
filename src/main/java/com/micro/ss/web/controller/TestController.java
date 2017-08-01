@@ -15,7 +15,6 @@ import com.micro.ss.web.support.ControllerSupport;
 public class TestController extends ControllerSupport {
 
 	@RequestMapping("login.do")
-	@ResponseBody
 	public String doLogin() {
 		return ok("你好.ss");
 	}

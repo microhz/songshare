@@ -4,7 +4,6 @@ import java.util.List;
 
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.micro.ss.web.annotations.LogCheck;
@@ -25,7 +24,6 @@ import com.micro.ss.web.support.ControllerSupport;
 public class MemberController extends ControllerSupport {
 	
 	@RequestMapping("follow.do")
-	@ResponseBody
 	@LogCheck
 	public String follow(@RequestParam("targetUserId") Long targetUserId) {
 		/*if (curUser() == null) {
@@ -39,7 +37,6 @@ public class MemberController extends ControllerSupport {
 	}
 	
 	@RequestMapping("sendMsg.do")
-	@ResponseBody
 	@LogCheck
 	public String sendMsg(@RequestParam("msg") String msg, @RequestParam("targetUserId") Long targetUserId) {
 		/*if (curUser() == null) {
@@ -56,7 +53,6 @@ public class MemberController extends ControllerSupport {
 	 * 获取其他用户发送的信息
 	 */
 	@RequestMapping("getMsgList")
-	@ResponseBody
 	@LogCheck
 	public String getMsgList(@RequestParam(value = "userId", required = false) Long userId) {
 		if (userId == null) {
@@ -73,7 +69,6 @@ public class MemberController extends ControllerSupport {
 	 * 获取最新的评论
 	 */
 	@RequestMapping("getCommentList.do")
-	@ResponseBody
 	public String getCommentaryList() {
 		ServiceResult<List<MusicCommentaryModel>> result = memberService.getRecentCommentary(appConfig.getHotCommentaryLimit());
 		if (result.isSuccess()) {
@@ -86,7 +81,6 @@ public class MemberController extends ControllerSupport {
 	 * 获取我的好友
 	 */
 	@RequestMapping("getFans.do")
-	@ResponseBody
 	@LogCheck
 	public String getFollower() {
 		ServiceResult<List<UserInfo>> result = memberService.getFans(curUserId());

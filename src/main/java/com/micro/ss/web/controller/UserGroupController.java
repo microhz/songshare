@@ -24,7 +24,6 @@ import com.micro.ss.web.support.ControllerSupport;
 public class UserGroupController extends ControllerSupport {
 
 	@RequestMapping("add")
-	@ResponseBody
 	@LogCheck
 	public String createGroup(
 			@RequestParam("name") String name,
@@ -39,7 +38,6 @@ public class UserGroupController extends ControllerSupport {
 	}
 	
 	@RequestMapping("join")
-	@ResponseBody
 	@LogCheck
 	public String joinGroup(@RequestParam("groupId") Long groupId) {
 		if (curUser() == null) {
@@ -56,7 +54,6 @@ public class UserGroupController extends ControllerSupport {
 	 * 根据名称搜索小组
 	 */
 	@RequestMapping("searchGroup")
-	@ResponseBody
 	public String searchGroup(@RequestParam("name") String name) {
 		List<Group> groupList = groupService.likeSearchGroup(name);
 		return ok(groupList);
