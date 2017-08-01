@@ -70,7 +70,6 @@ public class UserController extends ControllerSupport {
 	 */
 	@RequestMapping("login.do")
 	@ResponseBody
-	@LogCheck
 	public String login(@RequestParam("username") String userNameOrEmail,
 			@RequestParam("password") String password, HttpSession httpSession){
 		UserInfo userInfo = new UserInfo();
