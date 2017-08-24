@@ -31,7 +31,13 @@ public class LogController extends ControllerSupport {
 	}
 	
 	@RequestMapping("getLog.do")
-	public Object getLog(@RequestParam("userId")Long userId) {
+	public Object getLog(@RequestParam(value = "userId", required = false)Long userId) {
+		if (userId == null) {
+			userId = curUserId();
+		}
+		if (userId == null) {
+			return fail("请登录");
+		}
 		ServiceResult<List<Log>> logResult = logService.getLogByUserId(userId);
 		if (logResult.isFalse()) {
 			return fail(logResult.getMsg());

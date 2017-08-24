@@ -34,6 +34,7 @@ import com.micro.ss.web.enums.MusicCommentaryEnum;
 import com.micro.ss.web.enums.MusicStatusEnum;
 import com.micro.ss.web.enums.StatusEnum;
 import com.micro.ss.web.pojo.MusicDetail;
+import com.micro.ss.web.pojo.ServiceResult;
 import com.micro.ss.web.service.MusicService;
 import com.micro.ss.web.support.ServiceSupport;
 
@@ -77,29 +78,47 @@ public class MusicServiceImpl extends ServiceSupport implements MusicService {
 		musicInfoMapper.updateByPrimaryKeySelective(musicInfo);
 		return true;
 	}
-
-	public boolean recommnd(Long userId, Long musicId) {
-		MusicRecommendExample musicRecommendExample = new MusicRecommendExample();
-		musicRecommendExample.or().andUserIdEqualTo(userId).andMusicIdEqualTo(musicId);
-		if (musicRecommendMapper.countByExample(musicRecommendExample) > 0) {
-			// 重复推荐
-			return true;
+	
+	public ServiceResult<Boolean> recommnd(Long userId, Long musicId) {
+		MusicInfoExample musicInfoExample = new MusicInfoExample();
+		musicInfoExample.or().andIdEqualTo(musicId).andStatusEqualTo(StatusEnum.NORMAL.getStatus());
+		List<MusicInfo> musicInfoList = musicInfoMapper.selectByExample(musicInfoExample);
+		ServiceResult<Boolean> result = new ServiceResult<Boolean>();
+		if (musicInfoList == null || musicInfoList.size() == 0) {
+			result.setMsg("音乐不存在");
+			result.setSuccess(false);
+		} else {
+			MusicRecommendExample musicRecommendExample = new MusicRecommendExample();
+			musicRecommendExample.or().andUserIdEqualTo(userId).andMusicIdEqualTo(musicId);
+			if (musicRecommendMapper.countByExample(musicRecommendExample) > 0) {
+				// 重复推荐
+				result.setMsg("重复推荐");
+				result.setSuccess(false);
+			} else {
+				MusicRecommend musicRecommend = new MusicRecommend();
+				musicRecommend.setUserId(userId);
+				musicRecommend.setMusicId(musicId);
+				musicRecommend.setCreateTime(new Date());
+				musicRecommend.setStatus(StatusEnum.NORMAL.getStatus());
+				musicRecommendMapper.insert(musicRecommend);
+				result.setSuccess(true);
+			}
 		}
-		MusicRecommend musicRecommend = new MusicRecommend();
-		musicRecommend.setUserId(userId);
-		musicRecommend.setMusicId(musicId);
-		musicRecommend.setCreateTime(new Date());
-		musicRecommend.setStatus(StatusEnum.NORMAL.getStatus());
-		musicRecommendMapper.insert(musicRecommend);
-		return true;
+		return result;
 	}
 
-	public boolean collectionMusic(UserCollection userCollection) {
+	public ServiceResult<String> collectionMusic(UserCollection userCollection) {
+		if (userCollection.getMusicId() != null) {
+			MusicInfo musicInfo = getMusicById(userCollection.getMusicId());
+			if (musicInfo == null) {
+				return ServiceResult.getErrorResult("音乐不存在");
+			}
+		}
 		UserCollectionExample userCollectionExample = new UserCollectionExample();
 		userCollectionExample.or().andUserIdEqualTo(userCollection.getUserId()).andMusicIdEqualTo(userCollection.getMusicId());
-		if (userCollectionMapper.countByExample(userCollectionExample) > 0) return true;
+		if (userCollectionMapper.countByExample(userCollectionExample) > 0) return ServiceResult.getSuccess();
 		userCollectionMapper.insert(userCollection);
-		return true;
+		return ServiceResult.getSuccess();
 	}
 
 	public boolean score(Long musicId, Long userId, Integer score) {

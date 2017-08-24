@@ -57,16 +57,16 @@
         </div>
     </nav>
     <div class="container">
-        Song Taste 意为音乐盛宴。为观众打造一个聆听音乐的平台。
-SongTaste是一个音乐分享的产品。致力于建立公共分享的系统，记录并分析每个人的音乐爱好，自动寻找那些你可能喜欢的歌，计算任何两个用户之间的相似度。SongTaste About
-SongTaste 用音乐倾听彼此
-songtaste
-songtaste
+        SongShare 意为音乐盛宴。为观众打造一个聆听音乐的平台。
+SongShare是一个音乐分享的产品。致力于建立公共分享的系统，记录并分析每个人的音乐爱好，自动寻找那些你可能喜欢的歌，计算任何两个用户之间的相似度。SongShare About
+SongShare 用音乐倾听彼此
+songshare
+songshare
 音乐分享、音乐试听、欧美音乐、独立音乐。页面简洁，无眩杂广告。
 打开电脑，可能你的第一件事情是戴上耳机，打开音乐播放器。可是寻找你喜欢的音乐并不是件容易的事情，找到那些在音乐品味上与你志同道合的朋友或许更难。我们致力于建立公共分享的系统，记录并分析每个人的音乐爱好，自动寻找那些你可能喜欢的歌，计算任何两个用户之间的相似度。每天你都会发现新的朋友，你们听着同样的音乐，甚至喝着同样的咖啡。
 这听起来很有趣，实现起来可不容易，我们会努力做得更好。
 如果你能给大家更多的音乐，那么你从大家那将获得更多：
-在中国，因为传统唱片业不能满足有音乐需求的消费者，而网络音乐版权的模糊又使得在互联网上能够低成本的获得音乐享受，所以音乐网站在中国也一直是创业热点，而因为彼此之间的竞争激烈所导致的音乐供应模式不断更新，这也使音乐网站的寿命往往都很短暂，与其他类型的网站不同，几年前叫得上口的音乐网站到现在都杳无音讯了，而名为九九中国的一家音乐网站在上线不到一年就因为风险投资商的撤资而倒闭更是轰动一时，像SongTaste和虾米这样纯粹依靠用户自主上传和分享音乐的SNS模式被日益效仿，不过从长远来看，音乐依然需要被系统化的分类，使任意一曲音乐都能够在数据库中被索引，符合这种趋势的技术除了Google以外还尚未被大规模开发，不能不说是个发展过程中的瓶颈和盲点。
+在中国，因为传统唱片业不能满足有音乐需求的消费者，而网络音乐版权的模糊又使得在互联网上能够低成本的获得音乐享受，所以音乐网站在中国也一直是创业热点，而因为彼此之间的竞争激烈所导致的音乐供应模式不断更新，这也使音乐网站的寿命往往都很短暂，与其他类型的网站不同，几年前叫得上口的音乐网站到现在都杳无音讯了，而名为九九中国的一家音乐网站在上线不到一年就因为风险投资商的撤资而倒闭更是轰动一时，像SongShare和虾米这样纯粹依靠用户自主上传和分享音乐的SNS模式被日益效仿，不过从长远来看，音乐依然需要被系统化的分类，使任意一曲音乐都能够在数据库中被索引，符合这种趋势的技术除了Google以外还尚未被大规模开发，不能不说是个发展过程中的瓶颈和盲点。
 该网站的ST分析器如同所有音乐网站里的音乐风格、语言的分类系统一样，让一切音乐爱好者更方便的找到自己喜欢的音乐。
     </div>
 
@@ -78,59 +78,6 @@ songtaste
         $("#logo").click(function() {
             $("#home").show();
         })
-        // $("#logTab").click(function(e) {
-                // $("#logTab").tab('show');
-            // })
-        // 查询
-        // $.ajax({
-        //     url : "/ss/music/getRecentUpload.do",
-        //     type : "POST",
-        //     dataType : "json",
-        //     success: function(data) {
-        //         if (data.code == 0) {
-        //             var list = data.data;
-        //             for (var i in list) {
-        //                 $("#musicList").append("<li class='list-group-item' ><a href=" + list[i].fileUrl + ">" + list[i].name + "</a></li>");
-        //             }
-        //         } else {
-        //             alert(data.msg);
-        //         }
-        //     },
-        //     error : function() {
-        //         alert("系统异常");
-        //     }
-        // })
-
-        // console.log($("#name").val());
-        // //  添加
-        // $("#addMusicButton").click(function() {
-        //     $.ajax({
-        //         url : "/ss/music/add.do",
-        //         type : "POST",
-        //         dataType : "json",
-        //         data : {
-        //             name : $("#name").val(),
-        //             fileUrl : $("#url").val(),
-        //             singer : $("#singer").val(),
-        //             singerAlbum : $("#singer_album").val(),
-        //             comment : $("#comment").val()
-        //         },
-        //         success: function(data) {
-        //             if (data.code == 0) {
-        //                 alert("添加成功");
-        //             } else {
-        //                 alert(data.msg);
-        //             }
-        //         },
-        //         error : function() {
-        //             alert("系统异常");
-        //         }
-        //     })
-        // })
-
-
-        // mock
-        // $("#musicList").append("<li class='list-group-item' ><a href='a'>" + "test" + "</a></li>");
     </script>
 </body>
 

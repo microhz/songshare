@@ -7,6 +7,7 @@ import com.micro.ss.web.data.model.MusicInfo;
 import com.micro.ss.web.data.model.UserCollection;
 import com.micro.ss.web.data.model.UserListenRecord;
 import com.micro.ss.web.pojo.MusicDetail;
+import com.micro.ss.web.pojo.ServiceResult;
 
 /**
  * @author mapc 
@@ -34,12 +35,12 @@ public interface MusicService {
 	/**
 	 * 推荐音乐
 	 */
-	boolean recommnd(Long userId, Long musicId);
+	ServiceResult<Boolean> recommnd(Long userId, Long musicId);
 	
 	/**
 	 * 收藏音乐
 	 */
-	boolean collectionMusic(UserCollection userCollection);
+	ServiceResult<String> collectionMusic(UserCollection userCollection);
 	
 	/**
 	 * 音乐评分

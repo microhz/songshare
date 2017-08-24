@@ -21,6 +21,7 @@ import com.micro.ss.web.enums.MusicStatusEnum;
 import com.micro.ss.web.enums.ErrorMsgEnum;
 import com.micro.ss.web.enums.StatusEnum;
 import com.micro.ss.web.pojo.MusicDetail;
+import com.micro.ss.web.pojo.ServiceResult;
 import com.micro.ss.web.support.ControllerSupport;
 
 /**
@@ -32,7 +33,7 @@ import com.micro.ss.web.support.ControllerSupport;
 public class MusicController extends ControllerSupport {
 
 	@RequestMapping("getUploadList.do")
-	public String getCurUploadList(@RequestParam("page") Integer page, @RequestParam("size") Integer size) {
+	public String getCurUploadList(@RequestParam(value = "page", defaultValue = "0") Integer page, @RequestParam(value = "size", defaultValue = "20") Integer size) {
 		if (curUser() == null) {
 			return fail(ErrorMsgEnum.NOT_LOGIN);
 		}
@@ -106,7 +107,10 @@ public class MusicController extends ControllerSupport {
 		if (curUser() == null) {
 			return fail(ErrorMsgEnum.NOT_LOGIN);
 		}
-		musicService.recommnd(curUserId(), musicId);
+		ServiceResult<Boolean> result = musicService.recommnd(curUserId(), musicId);
+		if (result.isFalse()) {
+			return fail(result.getMsg());
+		}
 		return ok();
 	}
 	
@@ -123,7 +127,10 @@ public class MusicController extends ControllerSupport {
 		userCollection.setUserId(curUserId());
 		userCollection.setMusicId(musicId);
 		userCollection.setStatus(0);
-		musicService.collectionMusic(userCollection);
+		ServiceResult<String> result = musicService.collectionMusic(userCollection);
+		if (result.isFalse()) {
+			return fail(result.getMsg());
+		}
 		return ok();
 	}
 	
