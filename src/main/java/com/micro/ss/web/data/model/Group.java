@@ -2,64 +2,78 @@ package com.micro.ss.web.data.model;
 
 import java.util.Date;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+
+@Entity
 public class Group {
-    private Long id;
 
-    private String groupName;
+	@Id
+	@GeneratedValue
+	private Long id;
 
-    private String image;
+	@Column
+	private String groupName;
 
-    private Integer status;
+	@Column
+	private String image;
 
-    private Long creatorId;
+	@Column
+	private Integer status;
 
-    private Date createTime;
+	@Column
+	private Long creatorId;
 
-    public Long getId() {
-        return id;
-    }
+	@Column
+	private Date createTime;
 
-    public void setId(Long id) {
-        this.id = id;
-    }
+	public Long getId() {
+		return id;
+	}
 
-    public String getGroupName() {
-        return groupName;
-    }
+	public void setId(Long id) {
+		this.id = id;
+	}
 
-    public void setGroupName(String groupName) {
-        this.groupName = groupName == null ? null : groupName.trim();
-    }
+	public String getGroupName() {
+		return groupName;
+	}
 
-    public String getImage() {
-        return image;
-    }
+	public void setGroupName(String groupName) {
+		this.groupName = groupName == null ? null : groupName.trim();
+	}
 
-    public void setImage(String image) {
-        this.image = image == null ? null : image.trim();
-    }
+	public String getImage() {
+		return image;
+	}
 
-    public Integer getStatus() {
-        return status;
-    }
+	public void setImage(String image) {
+		this.image = image == null ? null : image.trim();
+	}
 
-    public void setStatus(Integer status) {
-        this.status = status;
-    }
+	public Integer getStatus() {
+		return status;
+	}
 
-    public Long getCreatorId() {
-        return creatorId;
-    }
+	public void setStatus(Integer status) {
+		this.status = status;
+	}
 
-    public void setCreatorId(Long creatorId) {
-        this.creatorId = creatorId;
-    }
+	public Long getCreatorId() {
+		return creatorId;
+	}
 
-    public Date getCreateTime() {
-        return createTime;
-    }
+	public void setCreatorId(Long creatorId) {
+		this.creatorId = creatorId;
+	}
 
-    public void setCreateTime(Date createTime) {
-        this.createTime = createTime;
-    }
+	public Date getCreateTime() {
+		return createTime;
+	}
+
+	public void setCreateTime(Date createTime) {
+		this.createTime = createTime;
+	}
 }

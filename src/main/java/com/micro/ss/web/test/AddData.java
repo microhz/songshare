@@ -9,7 +9,6 @@ import javax.net.ssl.SSLEngineResult.Status;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import com.micro.ss.web.data.mapper.MusicInfoMapper;
 import com.micro.ss.web.data.model.MusicInfo;
 import com.micro.ss.web.enums.StatusEnum;
 
@@ -20,10 +19,6 @@ import com.micro.ss.web.enums.StatusEnum;
  */
 @Component
 public class AddData {
-	
-
-	@Autowired
-	private MusicInfoMapper musicInfoMapper;
 	
 	@PostConstruct
 	public void init() {

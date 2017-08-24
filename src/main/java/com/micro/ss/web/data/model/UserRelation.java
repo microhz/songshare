@@ -2,15 +2,22 @@ package com.micro.ss.web.data.model;
 
 import java.util.Date;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+@Entity
 public class UserRelation {
+	@Id
+	@GeneratedValue
     private Long id;
-
+    @Column
     private Long targetUserId;
-
+    @Column
     private Long userId;
-
+    @Column
     private Date createTime;
-
+    @Column
     private Integer status;
 
     public Long getId() {

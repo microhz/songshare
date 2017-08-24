@@ -1,16 +1,26 @@
 package com.micro.ss.web.data.model;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+
+@Entity
 public class GroupTopics {
+	
+	@Id
+	@GeneratedValue
     private Long id;
 
+	@Column
     private String title;
-
+	@Column
     private String content;
-
+	@Column
     private Long userId;
-
+	@Column
     private Long groupId;
-
+	@Column
     private Integer status;
 
     public Long getId() {

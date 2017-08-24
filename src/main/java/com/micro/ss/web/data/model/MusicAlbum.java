@@ -2,17 +2,24 @@ package com.micro.ss.web.data.model;
 
 import java.util.Date;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+@Entity
 public class MusicAlbum {
+	@Id
+	@GeneratedValue
     private Long id;
-
+    @Column
     private Long musicId;
-
+    @Column
     private Long albumId;
-
+    @Column
     private Date createTime;
-
+    @Column
     private Long creatorId;
-
+    @Column
     private Integer status;
 
     public Long getId() {

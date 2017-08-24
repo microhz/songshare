@@ -2,37 +2,44 @@ package com.micro.ss.web.data.model;
 
 import java.util.Date;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+@Entity
 public class UserInfo {
+	@Id
+	@GeneratedValue
     private Long id;
-
+    @Column
     private String name;
-
+    @Column
     private Integer provinceId;
-
+    @Column
     private Integer age;
-
+    @Column
     private String photo;
-
+    @Column
     private String portraitUrl;
-
+    @Column
     private String email;
-
+    @Column
     private String wechat;
-
+    @Column
     private String password;
-
+    @Column
     private String job;
-
+    @Column
     private String qq;
-
+    @Column
     private String pageHome;
-
+    @Column
     private Integer level;
-
+    @Column
     private Date registerTime;
-
+    @Column
     private String ext;
-
+    @Column
     private Integer status;
 
     public Long getId() {

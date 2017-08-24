@@ -7,73 +7,80 @@ package com.micro.ss.web.support;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 
-import com.micro.ss.web.data.mapper.AlbumMapper;
-import com.micro.ss.web.data.mapper.GroupMapper;
-import com.micro.ss.web.data.mapper.LogMapper;
-import com.micro.ss.web.data.mapper.MessageMapper;
-import com.micro.ss.web.data.mapper.MusicAlbumMapper;
-import com.micro.ss.web.data.mapper.MusicCommentaryMapper;
-import com.micro.ss.web.data.mapper.MusicInfoMapper;
-import com.micro.ss.web.data.mapper.MusicRecommendMapper;
-import com.micro.ss.web.data.mapper.MusicTagMapper;
-import com.micro.ss.web.data.mapper.MusicTagRelationMapper;
-import com.micro.ss.web.data.mapper.UserCollectionMapper;
-import com.micro.ss.web.data.mapper.UserHomeCommentaryMapper;
-import com.micro.ss.web.data.mapper.UserInfoMapper;
-import com.micro.ss.web.data.mapper.UserListenRecordMapper;
-import com.micro.ss.web.data.mapper.UserMusicScoreMapper;
-import com.micro.ss.web.data.mapper.UserRelationMapper;
+import com.micro.ss.web.dao.AlbumDao;
+import com.micro.ss.web.dao.GroupDao;
+import com.micro.ss.web.dao.LogDao;
+import com.micro.ss.web.dao.MessageDao;
+import com.micro.ss.web.dao.MusicAlbumDao;
+import com.micro.ss.web.dao.MusicCommentaryDao;
+import com.micro.ss.web.dao.MusicInfoDao;
+import com.micro.ss.web.dao.MusicRecommendDao;
+import com.micro.ss.web.dao.MusicTagDao;
+import com.micro.ss.web.dao.MusicTagRelationDao;
+import com.micro.ss.web.dao.TopicsCommentaryDao;
+import com.micro.ss.web.dao.UserCollectionDao;
+import com.micro.ss.web.dao.UserGroupRelationDao;
+import com.micro.ss.web.dao.UserInfoDao;
+import com.micro.ss.web.dao.UserListenRecordDao;
+import com.micro.ss.web.dao.UserMusicScoreDao;
+import com.micro.ss.web.dao.UserRelationDao;
+import com.micro.ss.web.dao.UserTagDao;
 
 public abstract class ServiceSupport extends LoggerSupport {
 
 	@Autowired
-	protected UserInfoMapper userInfoMapper;
-
-	@Autowired
-	protected MusicInfoMapper musicInfoMapper;
-
-	@Autowired
-	protected MusicRecommendMapper musicRecommendMapper;
-
-	@Autowired
-	protected UserCollectionMapper userCollectionMapper;
-
-	@Autowired
-	protected UserMusicScoreMapper userMusicScoreMapper;
-
-	@Autowired
-	protected MusicCommentaryMapper musicCommentaryMapper;
-
-	@Autowired
-	protected UserListenRecordMapper userListenRecordMapper;
-
-	@Autowired
-	protected AlbumMapper albumMapper;
-
-	@Autowired
-	protected MusicAlbumMapper musicAlbumMapper;
-
-	@Autowired
-	protected MusicTagRelationMapper musicTagRelationMapper;
-
-	@Autowired
-	protected MusicTagMapper musicTagMapper;
-
-	@Autowired
-	protected UserRelationMapper userRelationMapper;
-
-	@Autowired
-	protected MessageMapper messageMapper;
+	protected AlbumDao albumDao;
 	
 	@Autowired
-	protected UserHomeCommentaryMapper userHomeCommentaryMapper;
+	protected GroupDao groupDao;
 	
 	@Autowired
-	protected GroupMapper groupMapper;
+	protected LogDao logDao;
 	
 	@Autowired
-	protected LogMapper logMapper;
-
+	protected MessageDao messageDao;
+	
+	@Autowired
+	protected MusicAlbumDao musicAlbumDao;
+	
+	@Autowired
+	protected MusicCommentaryDao musicCommentaryDao;
+	
+	@Autowired
+	protected MusicInfoDao musicInfoDao;
+	
+	@Autowired
+	protected MusicRecommendDao musicRecommendDao;
+	
+	@Autowired
+	protected MusicTagDao musicTagDao;
+	
+	@Autowired
+	protected MusicTagRelationDao musicTagRelationDao;
+	
+	@Autowired
+	protected TopicsCommentaryDao topicsCommentaryDao;
+	
+	@Autowired
+	protected UserCollectionDao userCollectionDao;
+	
+	@Autowired
+	protected UserInfoDao userInfoDao;
+	
+	@Autowired
+	protected UserListenRecordDao userListenRecordDao;
+	
+	@Autowired
+	protected UserMusicScoreDao userMusicScoreDao;
+	
+	@Autowired
+	protected UserRelationDao userRelationDao;
+	
+	@Autowired
+	protected UserGroupRelationDao userGroupRelationDao;
+	
+	@Autowired
+	protected UserTagDao userTagDao;
 //	@Value("${com.micro.ss.recommend.limit}")
 	protected Integer recommendLimit = 20;
 

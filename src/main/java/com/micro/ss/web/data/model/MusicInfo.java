@@ -2,27 +2,35 @@ package com.micro.ss.web.data.model;
 
 import java.util.Date;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+
+@Entity
 public class MusicInfo {
+	@Id
+	@GeneratedValue
     private Long id;
-
+    @Column
     private String name;
-
+    @Column
     private Long userId;
-
+    @Column
     private String singer;
-
+    @Column
     private String singerAlbum;
-
+    @Column
     private String fileUrl;
-
+    @Column
     private String comment;
-
+    @Column
     private Long lyricsId;
-
+    @Column
     private Date createTime;
-
+    @Column
     private Integer status;
-
+    @Column
     private String ext;
 
     public Long getId() {

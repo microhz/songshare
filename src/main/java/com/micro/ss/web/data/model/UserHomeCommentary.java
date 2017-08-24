@@ -2,17 +2,25 @@ package com.micro.ss.web.data.model;
 
 import java.util.Date;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+
+@Entity
 public class UserHomeCommentary {
+	@Id
+	@GeneratedValue
     private Long id;
-
+    @Column
     private Long userId;
-
+    @Column
     private Long commentUserId;
-
+    @Column
     private String commentaryContent;
-
+    @Column
     private Integer status;
-
+    @Column
     private Date createTime;
 
     public Long getId() {

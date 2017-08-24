@@ -4,7 +4,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Date;
 
-import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang.StringUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -63,7 +63,7 @@ public class MusicController extends ControllerSupport {
 			@RequestParam("fileUrl") String fileUrl,
 			@RequestParam(value = "lyrics", required = false) String lyrics) {
 		Long lyricsId = null;
-		if (StringUtils.isNoneBlank(lyrics)) {
+		if (StringUtils.isNotBlank(lyrics)) {
 			lyricsId = musicService.addLyrics(lyrics);
 		}
 		MusicInfo musicInfo = new MusicInfo();

@@ -4,13 +4,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.micro.ss.web.data.model.Album;
-import com.micro.ss.web.data.model.AlbumExample;
 import com.micro.ss.web.data.model.MusicAlbum;
-import com.micro.ss.web.data.model.MusicAlbumExample;
 import com.micro.ss.web.data.model.MusicInfo;
-import com.micro.ss.web.data.model.MusicInfoExample;
 import com.micro.ss.web.enums.StatusEnum;
 import com.micro.ss.web.pojo.AlbumDetail;
 import com.micro.ss.web.pojo.ServiceResult;
@@ -26,23 +25,21 @@ import com.micro.ss.web.support.ServiceSupport;
 public class AlbumServiceImpl extends ServiceSupport implements AlbumService {
 
 	public ServiceResult<Object> insertAlbum(Album album) {
-		albumMapper.insert(album);
+		albumDao.save(album);
 		return ServiceResult.getSuccess();
 	}
 
 	public ServiceResult<Object> addMusicToAlbum(MusicAlbum musicAlbum) {
 		// ----是否重复----
-		MusicAlbumExample musicAlbumExample = new MusicAlbumExample();
-		musicAlbumExample.or().andMusicIdEqualTo(musicAlbum.getMusicId()).andAlbumIdEqualTo(musicAlbum.getAlbumId()).andStatusEqualTo(StatusEnum.NORMAL.getStatus());
-		if (musicAlbumMapper.countByExample(musicAlbumExample) > 0) {
+		if (musicAlbumDao.getByMusicIdAndAlbumIdAndStatus(musicAlbum.getMusicId(), musicAlbum.getAlbumId(), musicAlbum.getStatus()) != null) {
 			return ServiceResult.getErrorResult("重复添加");
 		}
-		musicAlbumMapper.insert(musicAlbum);
+		musicAlbumDao.save(musicAlbum);
 		return ServiceResult.getSuccess();
 	}
 
 	public ServiceResult<Album> getAlbumById(Long albumId) {
-		return ServiceResult.getSuccess(albumMapper.selectByPrimaryKey(albumId));
+		return ServiceResult.getSuccess(albumDao.findOne(albumId));
 	}
 
 	public ServiceResult<AlbumDetail> getAlbumDetail(Long albumId) {
@@ -52,9 +49,7 @@ public class AlbumServiceImpl extends ServiceSupport implements AlbumService {
 		}
 		AlbumDetail albumDetail = new AlbumDetail();
 		albumDetail.setAlbum(album);
-		MusicAlbumExample musicAlbumExample = new MusicAlbumExample();
-		musicAlbumExample.or().andAlbumIdEqualTo(albumId).andStatusEqualTo(StatusEnum.NORMAL.getStatus());
-		List<MusicAlbum> musicAlbumList = musicAlbumMapper.selectByExample(musicAlbumExample);
+		List<MusicAlbum> musicAlbumList = musicAlbumDao.getByAlbumIdAndStatus(albumId, StatusEnum.NORMAL.getStatus());
 		if (musicAlbumList != null && musicAlbumList.size() > 0) {
 			
 			List<Long> musicIdList = new ArrayList<Long>();
@@ -64,29 +59,22 @@ public class AlbumServiceImpl extends ServiceSupport implements AlbumService {
 				}
 			}
 			if (musicIdList.size() > 0) {
-				MusicInfoExample musicInfoExample = new MusicInfoExample();
-				musicInfoExample.or().andIdIn(musicIdList);
-				List<MusicInfo> musicInfoList = musicInfoMapper.selectByExample(musicInfoExample);
+				List<MusicInfo> musicInfoList = musicInfoDao.getByIdIn(musicIdList);
 				albumDetail.setMusicInfoList(musicInfoList);
 			}
 		}
 		return ServiceResult.getSuccess(albumDetail);
 	}
 
+	@Transactional(propagation = Propagation.REQUIRED)
 	public ServiceResult<Object> delAlbum(Long albumId) {
-		MusicAlbumExample musicAlbumExample = new MusicAlbumExample();
-		musicAlbumExample.or().andAlbumIdEqualTo(albumId);
-		musicAlbumMapper.deleteByExample(musicAlbumExample);
-		albumMapper.deleteByPrimaryKey(albumId);
+		musicAlbumDao.deleteByAlbumId(albumId);
+		albumDao.delete(albumId);
 		return ServiceResult.getSuccess();
 	}
 
 	public ServiceResult<List<Album>> searchAlbum(String name, Integer page, Integer size) {
-		AlbumExample albumExample = new AlbumExample();
-		albumExample.or().andAlbumNameLike("%" + name + "%");
-		albumExample.setStart(page * size);
-		albumExample.setEnd(size);
-		return ServiceResult.getSuccess(albumMapper.selectByExample(albumExample));
+		return ServiceResult.getSuccess(albumDao.getAlbumLikeName(name, (page - 1) * size, size));
 	}
 
 }
