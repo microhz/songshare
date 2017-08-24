@@ -141,7 +141,7 @@ public class MemberServiceImpl extends ServiceSupport implements MemberService {
 			}
 			return ServiceResult.getSuccess(musicCommentaryModelList);
 		}
-		return null;
+		return ServiceResult.getSuccess(null);
 	}
 	
 	private MusicInfo getMusicInfoById(List<MusicInfo> musicInfoList, Long musicId) {
