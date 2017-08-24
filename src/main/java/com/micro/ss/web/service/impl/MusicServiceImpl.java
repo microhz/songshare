@@ -9,27 +9,16 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 
 import com.micro.ss.web.data.model.Album;
-import com.micro.ss.web.data.model.AlbumExample;
 import com.micro.ss.web.data.model.MusicAlbum;
-import com.micro.ss.web.data.model.MusicAlbumExample;
 import com.micro.ss.web.data.model.MusicCommentary;
-import com.micro.ss.web.data.model.MusicCommentaryExample;
 import com.micro.ss.web.data.model.MusicInfo;
-import com.micro.ss.web.data.model.MusicInfoExample;
 import com.micro.ss.web.data.model.MusicRecommend;
-import com.micro.ss.web.data.model.MusicRecommendExample;
 import com.micro.ss.web.data.model.MusicTag;
-import com.micro.ss.web.data.model.MusicTagExample;
 import com.micro.ss.web.data.model.MusicTagRelation;
-import com.micro.ss.web.data.model.MusicTagRelationExample;
 import com.micro.ss.web.data.model.UserCollection;
-import com.micro.ss.web.data.model.UserCollectionExample;
 import com.micro.ss.web.data.model.UserInfo;
-import com.micro.ss.web.data.model.UserInfoExample;
 import com.micro.ss.web.data.model.UserListenRecord;
-import com.micro.ss.web.data.model.UserListenRecordExample;
 import com.micro.ss.web.data.model.UserMusicScore;
-import com.micro.ss.web.data.model.UserMusicScoreExample;
 import com.micro.ss.web.enums.MusicCommentaryEnum;
 import com.micro.ss.web.enums.MusicStatusEnum;
 import com.micro.ss.web.enums.StatusEnum;
@@ -46,13 +35,10 @@ import com.micro.ss.web.support.ServiceSupport;
 public class MusicServiceImpl extends ServiceSupport implements MusicService {
 
 	public List<MusicInfo> getUploadMusic(Long userId, Integer page, Integer size) {
-		MusicInfoExample musicInfoExample = new MusicInfoExample();
-		musicInfoExample.or().andUserIdEqualTo(userId).andStatusEqualTo(MusicStatusEnum.NORMAL.getCode());
-		if (page != null && size != null) {
-			musicInfoExample.setStart(page * size);
-			musicInfoExample.setEnd(size);
+		if (userId == null) {
+			return null;
 		}
-		return musicInfoMapper.limitSelectByExample(musicInfoExample);
+		return musicInfoDao.getRecentMusic(userId, (page - 1) * size, size, StatusEnum.NORMAL.getStatus());
 	}
 
 	public Long addLyrics(String lyrics) {
@@ -63,34 +49,28 @@ public class MusicServiceImpl extends ServiceSupport implements MusicService {
 	}
 
 	public boolean addMusic(MusicInfo musicInfo) {
-		musicInfoMapper.insert(musicInfo);
+		musicInfoDao.save(musicInfo);
 		return true;
 	}
 
 	public MusicInfo getMusicById(Long musicId) {
-		return musicInfoMapper.selectByPrimaryKey(musicId);
+		return musicInfoDao.findOne(musicId);
 	}
 
 	public boolean deleteMusic(Long musicId) {
-		MusicInfo musicInfo = new MusicInfo();
-		musicInfo.setStatus(MusicStatusEnum.DELETED.getCode());
-		musicInfo.setId(musicId);
-		musicInfoMapper.updateByPrimaryKeySelective(musicInfo);
+		musicInfoDao.delete(musicId);
 		return true;
 	}
 	
 	public ServiceResult<Boolean> recommnd(Long userId, Long musicId) {
-		MusicInfoExample musicInfoExample = new MusicInfoExample();
-		musicInfoExample.or().andIdEqualTo(musicId).andStatusEqualTo(StatusEnum.NORMAL.getStatus());
-		List<MusicInfo> musicInfoList = musicInfoMapper.selectByExample(musicInfoExample);
 		ServiceResult<Boolean> result = new ServiceResult<Boolean>();
-		if (musicInfoList == null || musicInfoList.size() == 0) {
+		MusicInfo musicInfo = musicInfoDao.findOne(musicId);
+		if (musicInfo == null) {
 			result.setMsg("音乐不存在");
 			result.setSuccess(false);
 		} else {
-			MusicRecommendExample musicRecommendExample = new MusicRecommendExample();
-			musicRecommendExample.or().andUserIdEqualTo(userId).andMusicIdEqualTo(musicId);
-			if (musicRecommendMapper.countByExample(musicRecommendExample) > 0) {
+			List<MusicRecommend> rList = musicRecommendDao.getByUserIdAndStatus(userId, StatusEnum.NORMAL.getStatus());
+			if (rList == null || rList.size() == 0) {
 				// 重复推荐
 				result.setMsg("重复推荐");
 				result.setSuccess(false);
@@ -100,7 +80,7 @@ public class MusicServiceImpl extends ServiceSupport implements MusicService {
 				musicRecommend.setMusicId(musicId);
 				musicRecommend.setCreateTime(new Date());
 				musicRecommend.setStatus(StatusEnum.NORMAL.getStatus());
-				musicRecommendMapper.insert(musicRecommend);
+				musicRecommendDao.save(musicRecommend);
 				result.setSuccess(true);
 			}
 		}

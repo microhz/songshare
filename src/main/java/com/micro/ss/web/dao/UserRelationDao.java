@@ -1,5 +1,7 @@
 package com.micro.ss.web.dao;
 
+import java.util.List;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import com.micro.ss.web.data.model.UserRelation;
@@ -11,4 +13,7 @@ import com.micro.ss.web.data.model.UserRelation;
  */
 public interface UserRelationDao extends JpaRepository<UserRelation, Long>{
 
+	UserRelation getUserRelationByUserIdAndTargetUserIdAndStatus(Long userId, Long targetUserId, Integer status);
+	
+	List<UserRelation> getByUserIdAndStatus(Long userId, Integer status);
 }

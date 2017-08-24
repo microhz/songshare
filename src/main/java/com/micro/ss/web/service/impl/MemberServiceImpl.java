@@ -8,17 +8,11 @@ import org.apache.commons.lang.StringUtils;
 import org.springframework.stereotype.Service;
 
 import com.micro.ss.web.data.model.Message;
-import com.micro.ss.web.data.model.MessageExample;
 import com.micro.ss.web.data.model.MusicCommentary;
-import com.micro.ss.web.data.model.MusicCommentaryExample;
 import com.micro.ss.web.data.model.MusicInfo;
-import com.micro.ss.web.data.model.MusicInfoExample;
 import com.micro.ss.web.data.model.UserHomeCommentary;
-import com.micro.ss.web.data.model.UserHomeCommentaryExample;
 import com.micro.ss.web.data.model.UserInfo;
-import com.micro.ss.web.data.model.UserInfoExample;
 import com.micro.ss.web.data.model.UserRelation;
-import com.micro.ss.web.data.model.UserRelationExample;
 import com.micro.ss.web.enums.StatusEnum;
 import com.micro.ss.web.enums.UserRelationEnum;
 import com.micro.ss.web.pojo.MessageModel;
@@ -38,9 +32,7 @@ public class MemberServiceImpl extends ServiceSupport implements MemberService {
 
 	public ServiceResult<Object> addRelation(Long userId, Long targetUserId, UserRelationEnum userRelationEnum) {
 		if (userId != null && targetUserId != null && userRelationEnum != null) {
-			UserRelationExample userRelationExample = new UserRelationExample();
-			userRelationExample.or().andUserIdEqualTo(userId).andTargetUserIdEqualTo(targetUserId);
-			if (userRelationMapper.countByExample(userRelationExample) > 0) {
+			if (userRelationDao.getUserRelationByUserIdAndTargetUserIdAndStatus(userId, targetUserId, userRelationEnum.getCode()) != null) {
 				return ServiceResult.getErrorResult("重复关注");
 			}
 			UserRelation userRelation = new UserRelation();
@@ -48,8 +40,8 @@ public class MemberServiceImpl extends ServiceSupport implements MemberService {
 			userRelation.setStatus(userRelationEnum.getCode());
 			userRelation.setTargetUserId(targetUserId);
 			userRelation.setUserId(userId);
-			userRelation.setStatus(StatusEnum.NORMAL.getStatus());
-			userRelationMapper.insert(userRelation);
+			userRelation.setStatus(userRelationEnum.getCode());
+			userRelationDao.save(userRelation);
 			return ServiceResult.getSuccess(null);
 		}
 		return ServiceResult.getErrorResult("参数错误");
@@ -63,17 +55,14 @@ public class MemberServiceImpl extends ServiceSupport implements MemberService {
 			message.setSendTime(new Date());
 			message.setRecieveId(targetUserId);
 			message.setStatus(StatusEnum.NORMAL.getStatus());
-			messageMapper.insert(message);
+			messageDao.save(message);
 			return ServiceResult.getSuccess(null);
 		}
 		return ServiceResult.getErrorResult("参数错误");
 	}
 
 	public ServiceResult<List<UserHomeCommentary>> getHomeCommentary(Long userId) {
-		UserHomeCommentaryExample userHomeCommentaryExample = new UserHomeCommentaryExample();
-		userHomeCommentaryExample.or().andUserIdEqualTo(userId);
-		userHomeCommentaryExample.setOrderByClause("create_time DESC");
-		List<UserHomeCommentary> userHomeCommentrayList = userHomeCommentaryMapper.selectByExample(userHomeCommentaryExample);
+		List<UserHomeCommentary> userHomeCommentrayList = userHomeCommentaryDao.getUserHomeCommentaryByUserId(userId);
 		if (userHomeCommentrayList != null && userHomeCommentrayList.size() > 0) {
 			return ServiceResult.getSuccess(userHomeCommentrayList);
 		}
@@ -81,9 +70,7 @@ public class MemberServiceImpl extends ServiceSupport implements MemberService {
 	}
 
 	public ServiceResult<List<MessageModel>> getMessageList(Long userId) {
-		MessageExample messageExample = new MessageExample();
-		messageExample.or().andRecieveIdEqualTo(userId);
-		List<Message> messageList = messageMapper.selectByExample(messageExample);
+		List<Message> messageList = messageDao.getByUserId(userId);
 		if (messageList != null && messageList.size() > 0) {
 			List<MessageModel> messageModelList = new ArrayList<MessageModel>();
 			List<Long> userIdList = new ArrayList<Long>();
@@ -97,9 +84,7 @@ public class MemberServiceImpl extends ServiceSupport implements MemberService {
 				}
 			}
 			if (userIdList.size() > 0) {
-				UserInfoExample userInfoExample = new UserInfoExample();
-				userInfoExample.or().andIdIn(userIdList);
-				List<UserInfo> userInfoList = userInfoMapper.selectByExample(userInfoExample);
+				List<UserInfo> userInfoList = userInfoDao.getByIdIn(userIdList);
 				for (Message message : messageList) {
 					for (UserInfo userInfo : userInfoList) {
 						MessageModel messageModel = new MessageModel();
@@ -120,10 +105,7 @@ public class MemberServiceImpl extends ServiceSupport implements MemberService {
 		if (limitCount == null) {
 			return ServiceResult.getSuccess();
 		}
-		MusicCommentaryExample musicCommentaryExample = new MusicCommentaryExample();
-		musicCommentaryExample.setStart(0);
-		musicCommentaryExample.setEnd(limitCount);
-		List<MusicCommentary> musicCommentarieList = musicCommentaryMapper.limitSelect(musicCommentaryExample);
+		List<MusicCommentary> musicCommentarieList = musicCommentaryDao.getByRecentLimit(limitCount);
 		if (musicCommentarieList != null && musicCommentarieList.size() > 0) {
 			List<MusicCommentaryModel> musicCommentaryModelList = new ArrayList<MusicCommentaryModel>();
 			List<Long> musicIdList = new ArrayList<Long>();
@@ -133,9 +115,7 @@ public class MemberServiceImpl extends ServiceSupport implements MemberService {
 					musicIdList.add(musicCommentary.getTargetId());// 获取id批量查询
 				}
 			}
-			MusicInfoExample musicInfoExample = new MusicInfoExample();
-			musicInfoExample.or().andIdIn(musicIdList);
-			List<MusicInfo> musicInfoList = musicInfoMapper.selectByExample(musicInfoExample);
+			List<MusicInfo> musicInfoList = musicInfoDao.getByIdIn(musicIdList);
 			for (MusicCommentaryModel musicCommentaryModel : musicCommentaryModelList) {
 				musicCommentaryModel.setMusicInfo(getMusicInfoById(musicInfoList, musicCommentaryModel.getMusicCommentary().getTargetId()));
 			}
@@ -158,9 +138,7 @@ public class MemberServiceImpl extends ServiceSupport implements MemberService {
 
 	public ServiceResult<List<UserInfo>> getFans(Long userId) {
 		if (userId != null) {
-			UserRelationExample userRelationExample = new UserRelationExample();
-			userRelationExample.or().andTargetUserIdEqualTo(userId).andStatusEqualTo(UserRelationEnum.FOLLOW.getCode());
-			List<UserRelation> userRelationList = userRelationMapper.selectByExample(userRelationExample);
+			List<UserRelation> userRelationList = userRelationDao.getByUserIdAndStatus(userId, UserRelationEnum.FOLLOW.getCode());
 			if (userRelationList != null && userRelationList.size() > 0) {
 				List<Long> userIdList = new ArrayList<Long>();
 				for (UserRelation userRelation : userRelationList) {
@@ -169,10 +147,7 @@ public class MemberServiceImpl extends ServiceSupport implements MemberService {
 					}
 				}
 				if (userIdList.size() > 0) {
-					UserInfoExample userInfoExample = new UserInfoExample();
-					userInfoExample.or().andIdIn(userIdList);
-					List<UserInfo> userInfoList = userInfoMapper.selectByExample(userInfoExample);
-					return ServiceResult.getSuccess(userInfoList);
+					return ServiceResult.getSuccess(userInfoDao.getByIdIn(userIdList));
 				}
 			}
 		}

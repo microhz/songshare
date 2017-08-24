@@ -1,5 +1,7 @@
 package com.micro.ss.web.dao;
 
+import java.util.List;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import com.micro.ss.web.data.model.UserInfo;
@@ -10,4 +12,5 @@ import com.micro.ss.web.data.model.UserInfo;
  */
 public interface UserInfoDao extends JpaRepository<UserInfo, Long>{
 
+	List<UserInfo> getByIdIn(List<Long> idList);
 }

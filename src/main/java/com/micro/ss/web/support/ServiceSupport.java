@@ -20,6 +20,7 @@ import com.micro.ss.web.dao.MusicTagRelationDao;
 import com.micro.ss.web.dao.TopicsCommentaryDao;
 import com.micro.ss.web.dao.UserCollectionDao;
 import com.micro.ss.web.dao.UserGroupRelationDao;
+import com.micro.ss.web.dao.UserHomeCommentaryDao;
 import com.micro.ss.web.dao.UserInfoDao;
 import com.micro.ss.web.dao.UserListenRecordDao;
 import com.micro.ss.web.dao.UserMusicScoreDao;
@@ -78,6 +79,9 @@ public abstract class ServiceSupport extends LoggerSupport {
 	
 	@Autowired
 	protected UserGroupRelationDao userGroupRelationDao;
+	
+	@Autowired
+	protected UserHomeCommentaryDao userHomeCommentaryDao;
 	
 	@Autowired
 	protected UserTagDao userTagDao;
