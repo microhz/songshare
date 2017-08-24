@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 
 import com.micro.ss.web.data.model.UserInfo;
 import com.micro.ss.web.data.model.UserInfoExample;
+import com.micro.ss.web.pojo.ServiceResult;
 import com.micro.ss.web.service.UserService;
 import com.micro.ss.web.support.ServiceSupport;
 
@@ -50,6 +51,11 @@ public class UserServiceImpl extends ServiceSupport implements UserService {
 			return false;
 		}
 		return true;
+	}
+
+	public ServiceResult<UserInfo> getUserById(Long userId) {
+		UserInfo userInfo = userInfoMapper.selectByPrimaryKey(userId);
+		return ServiceResult.getSuccess(userInfo);
 	}
 
 }

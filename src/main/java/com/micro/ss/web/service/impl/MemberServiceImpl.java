@@ -100,11 +100,14 @@ public class MemberServiceImpl extends ServiceSupport implements MemberService {
 				UserInfoExample userInfoExample = new UserInfoExample();
 				userInfoExample.or().andIdIn(userIdList);
 				List<UserInfo> userInfoList = userInfoMapper.selectByExample(userInfoExample);
-				for (MessageModel messageModel : messageModelList) {
+				for (Message message : messageList) {
 					for (UserInfo userInfo : userInfoList) {
-						if (userInfo.getId().equals(messageModel.getMessage().getSenderId())) {
-							messageModel.setUser(userInfo);
+						MessageModel messageModel = new MessageModel();
+						messageModel.setUser(userInfo);
+						if (userInfo.getId().equals(message.getSenderId())) {
+							messageModel.setMessage(message);
 						}
+						messageModelList.add(messageModel);
 					}
 				}
 			}

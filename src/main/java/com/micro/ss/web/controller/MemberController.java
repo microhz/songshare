@@ -26,9 +26,14 @@ public class MemberController extends ControllerSupport {
 	@RequestMapping("follow.do")
 	@LogCheck
 	public String follow(@RequestParam("targetUserId") Long targetUserId) {
-		/*if (curUser() == null) {
-			return fail(ErrorMsgEnum.NOT_LOGIN);
-		}*/
+		ServiceResult<UserInfo> userInfoResult = userService.getUserById(targetUserId);
+		if (userInfoResult.isFalse()) return fail(userInfoResult.getMsg());
+		if (userInfoResult.getData() == null) {
+			return fail("关注用户不存在");
+		}
+		if (userInfoResult.getData().getId() == curUserId()) {
+			return fail("不能关注自己");
+		}
 		ServiceResult<Object> result = memberService.addRelation(curUserId(), targetUserId, UserRelationEnum.FOLLOW);
 		if(result.isSuccess()){
 			return ok();
@@ -52,7 +57,7 @@ public class MemberController extends ControllerSupport {
 	/**
 	 * 获取其他用户发送的信息
 	 */
-	@RequestMapping("getMsgList")
+	@RequestMapping("getMsgList.do")
 	@LogCheck
 	public String getMsgList(@RequestParam(value = "userId", required = false) Long userId) {
 		if (userId == null) {

@@ -21,10 +21,10 @@ public class RestLogAspect extends RestSupport {
 	
 	private final static String LOG_PREFIXX = "API : ";
 
-	@Pointcut("execution(* com.micro.ss.web.controller.*.*(..))")
-	public void pointcut() {}
+//	@Pointcut("execution(* com.jyxb.member.api.impl.*.*(..))")
+//	public void pointcut() {}
 	
-	@Around("pointcut()")
+	@Around("execution(* com.jyxb.member.api.impl.*.*(..))")
 	public Object log(ProceedingJoinPoint proceedingJoinPoint) {
 		Object[] args = proceedingJoinPoint.getArgs();
 		String methodName = proceedingJoinPoint.getSignature().getName();

@@ -1,5 +1,8 @@
 package com.micro.ss.web.controller;
 
+import java.util.List;
+
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -19,7 +22,7 @@ import com.micro.ss.web.support.ControllerSupport;
 @RequestMapping("log")
 public class LogController extends ControllerSupport {
 
-	@RequestMapping("addLog")
+	@RequestMapping("addLog.do")
 	@LogCheck
 	public String addLog(@RequestParam("content") String content,
 			@RequestParam("title") String title) {
@@ -27,11 +30,20 @@ public class LogController extends ControllerSupport {
 		return ok();
 	}
 	
+	@RequestMapping("getLog.do")
+	public Object getLog(@RequestParam("userId")Long userId) {
+		ServiceResult<List<Log>> logResult = logService.getLogByUserId(userId);
+		if (logResult.isFalse()) {
+			return fail(logResult.getMsg());
+		}
+		return ok(logResult.getData());
+	}
+	
 	
 	/**
 	 * 日志删除
 	 */
-	@RequestMapping("delLog")
+	@RequestMapping("delLog.do")
 	@LogCheck
 	public String delLog(@RequestParam("logId") Long logId) {
 		ServiceResult<Object> result = logService.delLog(logId);
@@ -44,11 +56,11 @@ public class LogController extends ControllerSupport {
 	/**
 	 * 重新编辑日志
 	 */
-	@RequestMapping("editLog")
+	@RequestMapping("editLog.do")
 	@LogCheck
-	public String editLog(@RequestParam("title") String title,
+	public String editLog(@RequestParam(value = "title", required = false) String title,
 			@RequestParam("id") Long id,
-			@RequestParam("content") String content){
+			@RequestParam(value = "content", required = false) String content){
 		ServiceResult<Log> result = logService.getLogById(id);
 		if (result.isFalse()) {
 			return fail(result.getMsg());
@@ -57,8 +69,8 @@ public class LogController extends ControllerSupport {
 			return fail(ErrorMsgEnum.GROUP_NOT_EXITS);
 		}
 		Log log = result.getData();
-		log.setTitle(title);
-		log.setContent(content);
+		if (StringUtils.isNotBlank(title)) log.setTitle(title);
+		if (StringUtils.isNotBlank(content)) log.setContent(content);
 		ServiceResult<Object> updateResult = logService.updateLogById(log);
 		if (updateResult.isFalse()) {
 			return fail(updateResult.getMsg());
