@@ -85,6 +85,7 @@ public abstract class ServiceSupport extends LoggerSupport {
 	
 	@Autowired
 	protected UserTagDao userTagDao;
+	
 //	@Value("${com.micro.ss.recommend.limit}")
 	protected Integer recommendLimit = 20;
 

@@ -11,4 +11,5 @@ import com.micro.ss.web.data.model.UserCollection;
  */
 public interface UserCollectionDao extends JpaRepository<UserCollection, Long>{
 
+	UserCollection getByUserIdAndMusicIdAndStatus(Long userId, Long musicId, Integer status);
 }

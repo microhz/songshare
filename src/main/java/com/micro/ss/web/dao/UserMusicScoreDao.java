@@ -10,5 +10,5 @@ import com.micro.ss.web.data.model.UserMusicScore;
  * @description : 
  */
 public interface UserMusicScoreDao extends JpaRepository<UserMusicScore, Long>{
-
+	UserMusicScore getByMusicIdAndUserIdAndStatus(Long musicId, Long userId, Integer status);
 }

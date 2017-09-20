@@ -17,4 +17,6 @@ public interface MusicCommentaryDao extends JpaRepository<MusicCommentary, Long>
 
 	@Query(nativeQuery = true , value = "SELECT * FROM music_commentary ORDER BY id DESC LIMIT 0,:limit")
 	List<MusicCommentary> getByRecentLimit(@Param("limit") Integer limit);
+	
+	MusicCommentary getByUserIdAndMusicIdAndStatus(Long userId, Long musicId, Integer status);
 }

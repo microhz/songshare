@@ -94,32 +94,26 @@ public class MusicServiceImpl extends ServiceSupport implements MusicService {
 				return ServiceResult.getErrorResult("音乐不存在");
 			}
 		}
-		UserCollectionExample userCollectionExample = new UserCollectionExample();
-		userCollectionExample.or().andUserIdEqualTo(userCollection.getUserId()).andMusicIdEqualTo(userCollection.getMusicId());
-		if (userCollectionMapper.countByExample(userCollectionExample) > 0) return ServiceResult.getSuccess();
-		userCollectionMapper.insert(userCollection);
+		if (userCollectionDao.getByUserIdAndMusicIdAndStatus(userCollection.getUserId(), userCollection.getMusicId(), StatusEnum.NORMAL.getStatus()) != null) return ServiceResult.getSuccess();
+		userCollectionDao.save(userCollection);
 		return ServiceResult.getSuccess();
 	}
 
 	public boolean score(Long musicId, Long userId, Integer score) {
-		UserMusicScoreExample userMusicScoreExample = new UserMusicScoreExample();
-		userMusicScoreExample.or().andUserIdEqualTo(userId).andMusicIdEqualTo(musicId);
-		if (userMusicScoreMapper.countByExample(userMusicScoreExample) > 0) return true;
+		if (userMusicScoreDao.getByMusicIdAndUserIdAndStatus(musicId, userId, StatusEnum.NORMAL.getStatus()) != null) return true;
 		UserMusicScore userMusicScore = new UserMusicScore();
 		userMusicScore.setMusicId(musicId);
 		userMusicScore.setScore(score);
 		userMusicScore.setStatus(0);
 		userMusicScore.setUserId(userId);
 		userMusicScore.setDate(new Date());
-		userMusicScoreMapper.insert(userMusicScore);
+		userMusicScoreDao.save(userMusicScore);
 		return true;
 	}
 
 	public boolean comment(MusicCommentary musicCommentary) {
 		// 检查是否已经存在评论
-		MusicCommentaryExample musicCommentaryExample = new MusicCommentaryExample();
-		musicCommentaryExample.or().andUserIdEqualTo(musicCommentary.getUserId()).andTargetIdEqualTo(musicCommentary.getTargetId()).andTypeEqualTo(musicCommentary.getType());
-		if (musicCommentaryMapper.countByExample(musicCommentaryExample) > 0) return true;
+		if (musicCommentaryDao.getByUserIdAndMusicIdAndStatus(musicCommentary.getUserId(), musicCommentary.getTargetId(), Status.)) return true;
 		musicCommentaryMapper.insert(musicCommentary);
 		return true;
 	}
