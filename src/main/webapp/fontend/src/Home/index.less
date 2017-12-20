@@ -1,0 +1,25 @@
+.home{
+    width: 100wh;
+    height: 100vh;
+    position:relative;
+    &:after{
+        content: " ";
+        position:absolute;
+        top:0;
+        right:0;
+        bottom:0;
+        left: 0;
+        z-index: -2;
+        background:url("../common/img/HNCK8905.jpg") #000  no-repeat;
+        background-size: 100% 100%;
+        filter: blur(4px) brightness(75%);
+    }
+    &:before{
+        content: "";
+        position: absolute;
+        top: 0; right: 0; bottom: 0; left: 0;
+        z-index: -1;
+        background: rgba(0,0,0, 0.5);
+        filter: opacity(0%);
+    }
+}

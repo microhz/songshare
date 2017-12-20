@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <META HTTP-EQUIV="Expires" CONTENT="0">
+    <title>Songshare首页</title>
+    <link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.3.5/css/bootstrap.min.css">
+    <script src="https://cdn.bootcss.com/jquery/2.1.1/jquery.min.js"></script>
+    <script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+</head>
+
+<body>
+
+    <!--<nav class="navbar" role="navigation">
+        <div class="navbar-inner">
+            <a class="navbar-brand" href="#">SongShare</a>
+            <ul class="nav">
+                <li class="active"><a>音乐列表</a></li>
+                <li><a>日志</a></li>
+            </ul>
+        </div>
+    </nav>-->
+    <nav class="navbar navbar-default" role="navigation">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#example-navbar-collapse">
+                    <span class="sr-only">切换导航</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+	        	</button>
+                <a class="navbar-brand" id="logo" href="home.html">songshare</a>
+            </div>
+            <div class="collapse navbar-collapse">
+                <ul class="nav navbar-nav">
+                    <li><a href="list.html">音乐列表</a></li>
+                    <li><a href="log.html">日志</a></li>
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+					        我的页面<b class="caret"></b>
+			        	</a>
+                        <ul class="dropdown-menu">
+                            <li><a href="#">我的分享</a></li>
+                            <li><a href="#">我的收藏</a></li>
+                            <li><a href="#">我的推荐</a></li>
+                            <li class="divider"></li>
+                            <li><a href="#">给我留言</a></li>
+                        </ul>
+                    </li>
+                    <ul class="nav navbar-nav navbar-right">
+                        <li><a href="register.html"><span class="glyphicon glyphicon-user"></span> 注册</a></li>
+                        <li><a href="login.html"><span class="glyphicon glyphicon-log-in"></span> 登录</a></li>
+                    </ul>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <div class="container">
+        <div class="page-header">
+            <h1>注册</h1>
+        </div>
+
+        <form>
+            <fieldset class="form-group">
+                <label for="formGroupExampleInput">用户名</label>
+                <input type="text" class="form-control" id="name" placeholder="输入昵称">
+            </fieldset>
+            <fieldset class="form-group">
+                <label for="formGroupExampleInput2">密码</label>
+                <input type="password" id="password" class="form-control" placeholder="输入密码">
+            </fieldset>
+            <fieldset class="form-group">
+                <label for="formGroupExampleInput2">确认密码</label>
+                <input type="password" id="repassword" class="form-control" placeholder="再次输入密码">
+            </fieldset>
+            <button id="registerButton" class="btn btn-primary" type="button">提交
+            </button>
+        </form>
+    </div>
+
+
+
+
+    <script src="https://cdn.bootcss.com/jquery/1.11.3/jquery.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.11.3/jquery-ui.js"></script>
+    <script type="text/javascript">
+        $("#registerButton").click(function(){
+            var name = $("#name").val();
+            var password = $("#password").val();
+            var repassword = $("#repassword").val();
+            if (!name || !password || !repassword) {
+            	alert("请填写参数");
+            	return;
+            }
+            if (password != repassword) {
+                alert("两次密码不相等");
+                return;
+            }
+            $.ajax({
+                url : "/ss/user/register.do",
+                type : "POST",
+                dataType : "json",
+                data : {
+                    name : name,
+                    password : password
+                },
+                success: function(data) {
+                    if (data.code == 0) {
+                        alert("注册成功");
+                        window.location.href = "login.html";
+                    } else {
+                        alert(data.msg);
+                    }
+                },
+                error : function() {
+                    alert("系统异常");
+                }
+            })
+        })
+        
+    </script>
+</body>
+
+</html>
